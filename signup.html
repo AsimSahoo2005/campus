@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sign Up — Campus Connect</title>
+    <link rel="stylesheet" href="signup.css" />
+  </head>
+  <body>
+    <a class="back" href="welcome.html">← Back to role selection</a>
+
+    <main class="center">
+      <form class="card" action="#" method="post" id="signupForm">
+        <h2>Student Sign Up</h2>
+        <p class="muted">Create your student account.</p>
+
+        <label>Full Name
+          <input type="text" name="name" placeholder="John Doe" required />
+        </label>
+
+        <label>Email Address
+          <input type="email" name="email" placeholder="you@example.com" required />
+        </label>
+
+        <label>Password
+          <input type="password" name="password" placeholder="••••••" required />
+        </label>
+
+        <label>Confirm Password
+          <input type="password" name="confirm" placeholder="••••••" required />
+        </label>
+
+  <button class="primary" type="submit">Sign Up</button>
+
+        <p class="small">Already have an account? <a href="signin.html">Sign In</a></p>
+      </form>
+    </main>
+    <script>
+      // Save basic signup info to localStorage and navigate to dashboard
+      (function(){
+        const form = document.getElementById('signupForm');
+        form.addEventListener('submit', function(e){
+          e.preventDefault();
+          const fd = new FormData(form);
+          const profile = {
+            name: fd.get('name') || '',
+            email: fd.get('email') || ''
+          };
+          // persist as JSON string
+          localStorage.setItem('campus_profile', JSON.stringify(profile));
+          // redirect to dashboard
+          window.location.href = 'dashboard.html';
+        });
+      })();
+    </script>
+  </body>
+</html>

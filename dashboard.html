@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dashboard — Campus Connect</title>
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="sidebar-logo">🎓</div>
+          <!-- sidebar-brand text removed to keep the name once in topbar -->
+        </div>
+        <nav class="nav">
+          <a href="#" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">Find Mentors</span></a>
+          <a href="#" class="nav-item"><span class="nav-emoji">💻</span><span class="nav-label">Hackathons</span></a>
+          <a href="#" class="nav-item"><span class="nav-emoji">💼</span><span class="nav-label">Internships</span></a>
+          <a href="#" class="nav-item"><span class="nav-emoji">📅</span><span class="nav-label">Talk Events</span></a>
+          <a href="#" class="nav-item"><span class="nav-emoji">📰</span><span class="nav-label">Feeds</span></a>
+          <a href="#" class="nav-item"><span class="nav-emoji">🎓</span><span class="nav-label">Academics</span></a>
+          <a href="#" class="nav-item"><span class="nav-emoji">💬</span><span class="nav-label">Feedback</span></a>
+        </nav>
+      </aside>
+
+      <header class="topbar">
+        <div class="top-left">
+          <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+          <div class="brand">Campus Connect</div>
+        </div>
+
+        <div class="top-right">
+            <div class="profile" id="topProfile">
+                <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+                  <div class="profile-name" id="topName">Profile</div>
+                  <div class="avatar" id="topAvatar">ME</div>
+                </div>
+                <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+                  <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
+                  <a role="menuitem" href="welcome.html" id="menuLogout">Log out</a>
+                </div>
+            </div>
+        </div>
+      </header>
+
+      <main class="main-area">
+        <div class="container">
+          <h2>Students</h2>
+
+          <section class="tiles">
+            <div class="tile purple">
+              <div class="tile-icon">👥</div>
+              <div class="tile-label">Find Mentors</div>
+            </div>
+
+            <div class="tile green">
+              <div class="tile-icon">💻</div>
+              <div class="tile-label">Hackathons</div>
+            </div>
+
+            <div class="tile orange">
+              <div class="tile-icon">💼</div>
+              <div class="tile-label">Internships</div>
+            </div>
+
+            <div class="tile pink">
+              <div class="tile-icon">📅</div>
+              <div class="tile-label">Talk Events</div>
+            </div>
+
+            <div class="tile white">
+              <div class="tile-icon">📰</div>
+              <div class="tile-label">Feeds</div>
+            </div>
+
+            <div class="tile blue">
+              <div class="tile-icon">🎓</div>
+              <div class="tile-label">Academics</div>
+            </div>
+
+            <div class="tile red">
+              <div class="tile-icon">💬</div>
+              <div class="tile-label">Feedback</div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <script>
+      (function(){
+        const btn = document.getElementById('menuBtn');
+        const sidebar = document.querySelector('.sidebar');
+        const topbar = document.querySelector('.topbar');
+        const main = document.querySelector('.main-area');
+
+        btn.addEventListener('click', function(){
+          const collapsed = sidebar.classList.toggle('collapsed');
+          topbar.classList.toggle('shifted', collapsed);
+          main.classList.toggle('collapsed', collapsed);
+          btn.setAttribute('aria-expanded', String(!collapsed));
+        });
+      })();
+    </script>
+    <script>
+      // populate topbar profile from localStorage
+      (function(){
+        const STORAGE_KEY = 'campus_profile';
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return;
+        try{
+          const p = JSON.parse(raw);
+          const nameEl = document.getElementById('topName');
+          const avatarEl = document.getElementById('topAvatar');
+          nameEl.textContent = p.name || 'Profile';
+          if(p.avatarDataUrl){
+            avatarEl.style.backgroundImage = `url('${p.avatarDataUrl}')`;
+            avatarEl.textContent = '';
+            avatarEl.style.backgroundSize = 'cover';
+          } else {
+            avatarEl.textContent = (p.name||'').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase() || 'ME';
+          }
+        }catch(e){ console.error(e) }
+      })();
+    </script>
+    <script>
+      // topbar profile dropdown behavior
+      (function(){
+        const trigger = document.getElementById('profileTrigger');
+        const menu = document.getElementById('profileMenu');
+        const container = document.getElementById('topProfile');
+        if(!trigger || !menu) return;
+
+        function openMenu(){
+          container.classList.add('open');
+          trigger.setAttribute('aria-expanded','true');
+          menu.setAttribute('aria-hidden','false');
+        }
+        function closeMenu(){
+          container.classList.remove('open');
+          trigger.setAttribute('aria-expanded','false');
+          menu.setAttribute('aria-hidden','true');
+        }
+
+        trigger.addEventListener('click', function(e){
+          const isOpen = container.classList.contains('open');
+          if(isOpen) closeMenu(); else openMenu();
+        });
+
+        // close on outside click
+        document.addEventListener('click', function(e){
+          if(!container.contains(e.target)) closeMenu();
+        });
+
+        // close on esc
+        document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeMenu(); });
+
+        // close when menu links clicked
+        menu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+      })();
+    </script>
+  </body>
+</html>
