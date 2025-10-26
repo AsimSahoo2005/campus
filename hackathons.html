@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Hackathons & Competitions — Campus Connect</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <link rel="stylesheet" href="hackathons.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <!-- reuse same sidebar markup so header still aligns visually with dashboard -->
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="sidebar-logo">🎓</div>
+        </div>
+        <nav class="nav">
+          <a href="find-mentors.html" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">Find Mentors</span></a>
+          <a href="hackathons.html" class="nav-item"><span class="nav-emoji">💻</span><span class="nav-label">Hackathons</span></a>
+          <a href="#" class="nav-item"><span class="nav-emoji">💼</span><span class="nav-label">Internships</span></a>
+          <a href="#" class="nav-item"><span class="nav-emoji">📅</span><span class="nav-label">Talk Events</span></a>
+          <a href="#" class="nav-item"><span class="nav-emoji">📰</span><span class="nav-label">Feeds</span></a>
+          <a href="recent-events.html" class="nav-item"><span class="nav-emoji">🗓️</span><span class="nav-label">Recent Events</span></a>
+        </nav>
+      </aside>
+
+      <header class="topbar">
+        <div class="top-left">
+          <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+          <div class="brand">Campus Connect</div>
+        </div>
+
+        <div class="top-right">
+            <div class="profile" id="topProfile">
+                <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+                  <div class="profile-name" id="topName">Profile</div>
+                  <div class="avatar" id="topAvatar">ME</div>
+                </div>
+                <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+                  <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
+                  <a role="menuitem" href="welcome.html" id="menuLogout">Log out</a>
+                </div>
+            </div>
+        </div>
+      </header>
+
+      <main class="main-area">
+        <div class="container">
+          <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+
+          <section class="hero">
+            <div class="hero-icon">🎩</div>
+            <h1>Hackathons & Competitions</h1>
+            <p class="hero-sub">Sharpen your skills, build cool projects, and win amazing prizes.</p>
+          </section>
+
+          <section class="controls-row">
+            <div class="search-wrap">
+              <input id="searchInput" placeholder="Search hackathons, tags, organisers..." />
+            </div>
+            <div class="filters">
+              <select id="filterMode">
+                <option value="all">All</option>
+                <option value="online">Online</option>
+                <option value="offline">Offline</option>
+                <option value="hybrid">Hybrid</option>
+              </select>
+            </div>
+            <div class="my-actions">
+              <button id="myPosted" class="btn ghost">My uploads</button>
+            </div>
+          </section>
+
+          <section id="grid" class="hack-grid" aria-live="polite">
+            <!-- cards rendered by JS -->
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // sidebar toggle (same behaviour as dashboard)
+      (function(){
+        const btn = document.getElementById('menuBtn');
+        const sidebar = document.querySelector('.sidebar');
+        const topbar = document.querySelector('.topbar');
+        const main = document.querySelector('.main-area');
+
+        btn.addEventListener('click', function(){
+          const collapsed = sidebar.classList.toggle('collapsed');
+          topbar.classList.toggle('shifted', collapsed);
+          main.classList.toggle('collapsed', collapsed);
+          btn.setAttribute('aria-expanded', String(!collapsed));
+        });
+      })();
+
+      // populate topbar profile from localStorage (same as dashboard)
+      (function(){
+        const STORAGE_KEY = 'campus_profile';
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return;
+        try{
+          const p = JSON.parse(raw);
+          const nameEl = document.getElementById('topName');
+          const avatarEl = document.getElementById('topAvatar');
+          nameEl.textContent = p.name || 'Profile';
+          if(p.avatarDataUrl){
+            avatarEl.style.backgroundImage = `url('${p.avatarDataUrl}')`;
+            avatarEl.textContent = '';
+            avatarEl.style.backgroundSize = 'cover';
+          } else {
+            avatarEl.textContent = (p.name||'').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase() || 'ME';
+          }
+        }catch(e){ console.error(e) }
+      })();
+
+      // profile dropdown behaviour
+      (function(){
+        const trigger = document.getElementById('profileTrigger');
+        const menu = document.getElementById('profileMenu');
+        const container = document.getElementById('topProfile');
+        if(!trigger || !menu) return;
+
+        function openMenu(){ container.classList.add('open'); trigger.setAttribute('aria-expanded','true'); menu.setAttribute('aria-hidden','false'); }
+        function closeMenu(){ container.classList.remove('open'); trigger.setAttribute('aria-expanded','false'); menu.setAttribute('aria-hidden','true'); }
+
+        trigger.addEventListener('click', function(e){ const isOpen = container.classList.contains('open'); if(isOpen) closeMenu(); else openMenu(); });
+        document.addEventListener('click', function(e){ if(!container.contains(e.target)) closeMenu(); });
+        document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeMenu(); });
+        menu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+      })();
+
+      // Sample hackathons data (in future, these will be uploaded by alumni/backend)
+      const HACKS = [
+        {
+          id: 'h1',
+          title: 'AI for Good Global Summit',
+          organiser: 'MLH (Major League Hacking)',
+          date: 'Oct 25-27, 2024',
+          location: 'Virtual',
+          applyBy: 'Oct 20, 2024',
+          mode: 'Online',
+          tags: ['AI/ML','Social Good','Data Science'],
+          desc: `Join developers, data scientists, and innovators to build AI solutions for social good. Tackle challenges related to climate change, healthcare, and education. Team size 1-4 members.`,
+          applyLink: 'https://mlh.io',
+          image: ''
+        },
+        {
+          id: 'h2',
+          title: 'Hack The Future: Web3 & DeFi',
+          organiser: 'Stanford University',
+          date: 'Nov 8-10, 2024',
+          location: 'Stanford Campus, CA',
+          applyBy: 'Oct 30, 2024',
+          mode: 'Offline',
+          tags: ['Web3','Blockchain','DeFi','Solidity'],
+          desc: `A focused competition exploring decentralized finance, NFTs, and new blockchain UX. Mentors from industry will guide teams.`,
+          applyLink: 'https://stanford.edu/hack',
+          image: ''
+        },
+        {
+          id: 'h3',
+          title: 'Innovate India Challenge',
+          organiser: 'IIT Bombay',
+          date: 'Nov 15-17, 2024',
+          location: 'IIT Bombay & Online',
+          applyBy: 'Nov 1, 2024',
+          mode: 'Hybrid',
+          tags: ['Civic Tech','Sustainability','Made in India'],
+          desc: `Innovative solutions for social impact and sustainable development. Open to students and alumni.`,
+          applyLink: 'https://iitb.ac.in/innovate',
+          image: ''
+        },
+        {
+          id: 'h4',
+          title: 'Game Jam 2024',
+          organiser: 'Unity & Discord',
+          date: 'Dec 1-3, 2024',
+          location: 'Discord',
+          applyBy: 'Nov 28, 2024',
+          mode: 'Online',
+          tags: ['Game Dev','Unity','C#','Creative'],
+          desc: `Build compact game prototypes. Great for portfolios and meeting artists, devs, and designers.`,
+          applyLink: 'https://unity.com/gamejam',
+          image: ''
+        }
+      ];
+
+      const grid = document.getElementById('grid');
+
+      function tagHTML(t){ return `<span class="tag">${t}</span>` }
+
+      function renderCard(h){
+        const div = document.createElement('article');
+        div.className = 'hack-card';
+        div.innerHTML = `
+          <div class="card-top">
+            <div class="card-left">
+              <div class="card-title">${h.title}</div>
+              <div class="card-org">${h.organiser}</div>
+            </div>
+            <div class="card-right">
+              <div class="mode-badge">${h.mode}</div>
+            </div>
+          </div>
+
+          <div class="card-meta">
+            <div class="meta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="#9AA4B2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg> ${h.date}</div>
+            <div class="meta">📍 ${h.location}</div>
+          </div>
+
+          <div class="card-tags">${h.tags.map(tagHTML).join('')}</div>
+
+          <div class="card-actions">
+            <div class="apply-by">Apply by: <strong>${h.applyBy}</strong></div>
+            <div class="buttons">
+              <button class="btn secondary view-details" data-id="${h.id}">View Details</button>
+              <a class="btn primary" href="${h.applyLink}" target="_blank" rel="noopener noreferrer">Apply</a>
+            </div>
+          </div>
+
+          <div class="card-details" aria-hidden="true">
+            <p class="desc">${h.desc}</p>
+            <div class="details-grid">
+              <div><strong>Eligibility</strong><div>Open to all university students</div></div>
+              <div><strong>Team Size</strong><div>1-4 members</div></div>
+            </div>
+            <div class="card-footer">
+              <button class="btn ghost close-details" data-id="${h.id}">Show Less</button>
+            </div>
+          </div>
+        `;
+
+        // attach handlers for view details toggle
+        setTimeout(()=>{
+          const v = div.querySelector('.view-details');
+          const c = div.querySelector('.close-details');
+          const details = div.querySelector('.card-details');
+          v && v.addEventListener('click', function(){
+            const open = div.classList.toggle('expanded');
+            details.setAttribute('aria-hidden', String(!open));
+            // smooth scroll into view if expanded
+            if(open) div.scrollIntoView({behavior:'smooth', block:'center'});
+          });
+          c && c.addEventListener('click', function(){ div.classList.remove('expanded'); details.setAttribute('aria-hidden','true'); });
+        },0);
+
+        return div;
+      }
+
+      function renderGrid(list){
+        grid.innerHTML = '';
+        list.forEach(h => grid.appendChild(renderCard(h)));
+      }
+
+      // initial render
+      renderGrid(HACKS);
+
+      // simple search and filter
+      document.getElementById('searchInput').addEventListener('input', function(e){
+        const q = e.target.value.trim().toLowerCase();
+        const filtered = HACKS.filter(h => (
+          h.title.toLowerCase().includes(q) || h.organiser.toLowerCase().includes(q) || h.tags.join(' ').toLowerCase().includes(q)
+        ));
+        renderGrid(filtered);
+      });
+
+      document.getElementById('filterMode').addEventListener('change', function(e){
+        const v = e.target.value;
+        if(v === 'all') return renderGrid(HACKS);
+        renderGrid(HACKS.filter(h => h.mode.toLowerCase() === v));
+      });
+
+    </script>
+  </body>
+</html>

@@ -7,6 +7,68 @@
   --accent: #2b6ef6;
 }
 
+/* Topbar styling for this page (keeps dashboard behavior but centers the page title) */
+.lm-topbar {
+  left: 240px; /* align with sidebar */
+  right: 0;
+  top: 0;
+  position: fixed;
+  transition: left 220ms ease;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 22px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.98), rgba(248,250,255,0.98));
+  border-bottom: 1px solid rgba(21,49,91,0.04);
+  box-shadow: 0 8px 24px rgba(12,15,30,0.06);
+  /* make sure the page topbar sits above the sidebar so the menu button is clickable */
+  z-index: 120;
+}
+.lm-topbar.shifted { left: 64px }
+.lm-topbar .top-center{ position:absolute; left:0; right:0; text-align:center; pointer-events:none }
+.lm-topbar .top-center .page-title{ margin:0; font-size:20px; pointer-events:auto }
+
+/* main area should leave room for the topbar */
+.main-area { padding-top: 84px; }
+
+/* Brand link styling: match dashboard appearance and remove underline */
+.lm-topbar .brand,
+.lm-topbar .brand:visited {
+  text-decoration: none;
+  color: var(--accent);
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+.lm-topbar .brand:hover { text-decoration: none; }
+
+/* Ensure the menu button sits above other elements and is always clickable */
+#menuBtn {
+  position: relative;
+  z-index: 130; /* above .lm-topbar (120) to guarantee pointer events */
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  font-size: 20px;
+}
+
+.menu:focus { outline: 2px solid rgba(43,110,246,0.18); outline-offset: 2px }
+
+/* Strong fallback rules that apply when the body has .sidebar-collapsed.
+   These use !important to override any page-specific specificity issues. */
+body.sidebar-collapsed .sidebar {
+  width: 64px !important;
+  padding-left: 6px !important;
+}
+body.sidebar-collapsed .main-area {
+  margin-left: 64px !important;
+}
+body.sidebar-collapsed .topbar,
+body.sidebar-collapsed .lm-topbar {
+  left: 64px !important;
+}
+
 * {
   box-sizing: border-box;
   font-family: Inter, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;

@@ -4,53 +4,72 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Find Mentors</title>
+  <link rel="stylesheet" href="dashboard.css" />
   <link rel="stylesheet" href="find-mentors.css" />
 </head>
 <body>
-  <header class="fm-header">
-    <div class="app-left">
-      <a href="dashboard.html" class="app-brand">Campus Connect</a>
-    </div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-logo">🎓</div>
+      </div>
+      <nav class="nav">
+        <a href="find-mentors.html" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">Find Mentors</span></a>
+        <a href="hackathons.html" class="nav-item"><span class="nav-emoji">💻</span><span class="nav-label">Hackathons</span></a>
+        <a href="#" class="nav-item"><span class="nav-emoji">💼</span><span class="nav-label">Internships</span></a>
+        <a href="#" class="nav-item"><span class="nav-emoji">📅</span><span class="nav-label">Talk Events</span></a>
+        <a href="#" class="nav-item"><span class="nav-emoji">📰</span><span class="nav-label">Feeds</span></a>
+        <a href="recent-events.html" class="nav-item"><span class="nav-emoji">🗓️</span><span class="nav-label">Recent Events</span></a>
+      </nav>
+    </aside>
 
-    <div class="fm-header-center">
-      <h1 class="page-title">Find Mentors</h1>
-    </div>
-
-    <div class="app-right">
-      <div class="profile" id="topProfile">
-        <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
-          <div class="profile-name" id="topName">Profile</div>
-          <div class="avatar" id="topAvatar">ME</div>
-        </div>
-        <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
-          <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
-          <a role="menuitem" href="welcome.html" id="menuLogout">Log out</a>
+    <header class="topbar lm-topbar">
+      <div class="top-left">
+        <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+        <a href="dashboard.html" class="brand">Campus Connect</a>
+      </div>
+      <div class="top-center">
+        <h1 class="page-title">Find Mentors</h1>
+      </div>
+      <div class="top-right">
+        <div class="profile" id="topProfile">
+          <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+            <div class="profile-name" id="topName">Profile</div>
+            <div class="avatar" id="topAvatar">ME</div>
+          </div>
+          <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+            <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
+            <a role="menuitem" href="welcome.html" id="menuLogout">Log out</a>
+          </div>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <!-- controls row below header: left - back, center - title+meetings, right - search -->
-  <div class="controls-row">
-    <div class="controls-left">
-      <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
-    </div>
-    <div class="controls-center">
-      <div class="search-wrapper">
-        <span class="search-icon">🔍</span>
-        <input id="searchInput" placeholder="Search mentors by name, company or role" />
+    <main class="main-area">
+      <div class="container">
+        <!-- controls row below header: left - back, center - search, right - meetings -->
+        <div class="controls-row">
+          <div class="controls-left">
+            <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+          </div>
+          <div class="controls-center">
+            <div class="search-wrapper">
+              <span class="search-icon">🔍</span>
+              <input id="searchInput" placeholder="Search mentors by name, company or role" />
+            </div>
+          </div>
+          <div class="controls-right">
+            <button id="myMeetingsBtn" class="btn small">My Meetings</button>
+          </div>
+        </div>
+
+        <section id="mentorsGrid" class="mentors-grid" aria-live="polite">
+          <!-- Mentor cards injected here -->
+        </section>
       </div>
-    </div>
-    <div class="controls-right">
-      <button id="myMeetingsBtn" class="btn small">My Meetings</button>
-    </div>
+    </main>
+
   </div>
-
-  <main class="fm-main">
-    <section id="mentorsGrid" class="mentors-grid" aria-live="polite">
-      <!-- Mentor cards injected here -->
-    </section>
-  </main>
 
   <!-- Chat panel (hidden by default) -->
   <aside id="chatPanel" class="chat-panel" aria-hidden="true">
@@ -376,6 +395,50 @@
   // initialization
   renderMentors();
   searchInput.addEventListener('input', ()=>renderMentors(searchInput.value));
+
+  // sidebar toggle (same behaviour as dashboard)
+  (function(){
+    // Robust sidebar toggle: support both .topbar and .lm-topbar and toggle all matches.
+    const btn = document.getElementById('menuBtn');
+    const sidebar = document.querySelector('.sidebar');
+    const topbars = document.querySelectorAll('.topbar, .lm-topbar');
+    const main = document.querySelector('.main-area');
+    console.debug('[menu] init', { btn, sidebar, topbarsCount: topbars.length, main });
+    if(!btn) {
+      console.warn('menuBtn not found');
+      return;
+    }
+    // central toggle function so we can call it from multiple handlers (direct + delegated)
+    function toggleSidebarTrigger(e){
+      if(e) console.debug('[menu] click event', { eType: e.type, target: e.target });
+      if(!sidebar) {
+        console.warn('[menu] sidebar element not found');
+        return;
+      }
+      const before = { sidebarClasses: Array.from(sidebar.classList), mainClasses: main ? Array.from(main.classList) : null };
+      console.debug('[menu] before toggle', before);
+  const collapsed = sidebar.classList.toggle('collapsed');
+  // Also set a body-level class as a higher-specificity fallback so CSS definitely moves layout
+  try{ document.body.classList.toggle('sidebar-collapsed', collapsed); }catch(e){}
+      // toggle shifted on any topbar variants
+      topbars.forEach(tb => tb.classList.toggle('shifted', collapsed));
+      if(main) main.classList.toggle('collapsed', collapsed);
+      if(btn) btn.setAttribute('aria-expanded', String(!collapsed));
+      const after = { sidebarClasses: Array.from(sidebar.classList), mainClasses: main ? Array.from(main.classList) : null, collapsed };
+      console.debug('[menu] after toggle', after);
+    }
+
+    // attach direct listener if possible
+    if(btn) btn.addEventListener('click', toggleSidebarTrigger);
+    // attach delegated listener as a fallback (catches clicks even if pointer events are intercepted)
+    document.addEventListener('click', function(ev){
+      try{
+        if(ev.target && ev.target.closest && ev.target.closest('#menuBtn')){
+          toggleSidebarTrigger(ev);
+        }
+      }catch(err){ /* ignore */ }
+    });
+  })();
 
   // populate topbar profile from localStorage (same behavior as dashboard)
   (function(){
