@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Find Mentors</title>
+  <link rel="stylesheet" href="find-mentors.css" />
+</head>
+<body>
+  <header class="fm-header">
+    <div class="app-left">
+      <a href="dashboard.html" class="app-brand">Campus Connect</a>
+    </div>
+
+    <div class="fm-header-center">
+      <h1 class="page-title">Find Mentors</h1>
+    </div>
+
+    <div class="app-right">
+      <div class="profile" id="topProfile">
+        <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+          <div class="profile-name" id="topName">Profile</div>
+          <div class="avatar" id="topAvatar">ME</div>
+        </div>
+        <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+          <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
+          <a role="menuitem" href="welcome.html" id="menuLogout">Log out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- controls row below header: left - back, center - title+meetings, right - search -->
+  <div class="controls-row">
+    <div class="controls-left">
+      <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+    </div>
+    <div class="controls-center">
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input id="searchInput" placeholder="Search mentors by name, company or role" />
+      </div>
+    </div>
+    <div class="controls-right">
+      <button id="myMeetingsBtn" class="btn small">My Meetings</button>
+    </div>
+  </div>
+
+  <main class="fm-main">
+    <section id="mentorsGrid" class="mentors-grid" aria-live="polite">
+      <!-- Mentor cards injected here -->
+    </section>
+  </main>
+
+  <!-- Chat panel (hidden by default) -->
+  <aside id="chatPanel" class="chat-panel" aria-hidden="true">
+    <header class="chat-header">
+      <div id="chatMentorInfo" class="mentor-info">
+        <div id="chatMentorAvatar" class="avatar-sm"></div>
+        <div>
+          <div id="chatMentorName" class="mentor-name"></div>
+          <div id="chatMentorMeta" class="mentor-meta"></div>
+        </div>
+      </div>
+      <div class="chat-actions">
+        <button id="scheduleBtn" class="btn small">Schedule</button>
+        <button id="closeChatBtn" class="btn small ghost">Close</button>
+      </div>
+    </header>
+    <div id="chatMessages" class="chat-messages" role="log" aria-live="polite"></div>
+    <footer class="chat-footer">
+      <div class="chat-tools">
+        <button id="emojiBtn" class="btn ghost" title="Insert emoji">🙂</button>
+        <button id="attachBtn" class="btn ghost" title="Attach file">📎</button>
+        <input id="attachInput" type="file" style="display:none" />
+      </div>
+      <input id="chatInput" placeholder="Type a message" />
+      <button id="sendMsgBtn" class="btn">Send</button>
+    </footer>
+  </aside>
+
+  <!-- Schedule modal -->
+  <div id="scheduleModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <h2>Schedule a meeting</h2>
+      <p id="scheduleMentorLabel"></p>
+
+      <div class="form-row">
+        <label for="dateSelect">Date</label>
+        <select id="dateSelect"></select>
+      </div>
+      <div class="form-row">
+        <label for="timeSelect">Time</label>
+        <select id="timeSelect"></select>
+      </div>
+      <div class="form-row">
+        <label for="durationSelect">Duration (minutes)</label>
+        <select id="durationSelect">
+          <option>15</option>
+          <option>30</option>
+          <option>45</option>
+          <option selected>60</option>
+        </select>
+      </div>
+
+      <div class="modal-actions">
+        <button id="confirmScheduleBtn" class="btn primary">Confirm</button>
+        <button id="cancelScheduleBtn" class="btn ghost">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Meetings modal -->
+  <div id="meetingsModal" class="modal" aria-hidden="true">
+    <div class="modal-content small">
+      <h2>My Meetings</h2>
+      <div id="meetingsList"></div>
+      <div class="modal-actions">
+        <button id="closeMeetingsBtn" class="btn ghost">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // Sample mentors data
+  const mentors = [
+    { id: 'm1', name: 'Anita Rao', role: 'Senior ML Engineer', company: 'DeepScale', bio: 'ML engineer focused on NLP and production systems.' },
+    { id: 'm2', name: 'Ravi Kumar', role: 'Product Manager', company: 'Finlytics', bio: 'PM with background in data products.' },
+    { id: 'm3', name: 'Priya Singh', role: 'UX Lead', company: 'Maple Studio', bio: 'Design leader working on consumer UX.' },
+    { id: 'm4', name: 'Omar Ali', role: 'DevOps Engineer', company: 'CloudWays', bio: 'SRE & infra automation.' },
+    { id: 'm5', name: 'Sara Chen', role: 'Frontend Engineer', company: 'BrightApps', bio: 'React + Typescript + accessibility.' },
+    { id: 'm6', name: 'John Doe', role: 'CTO', company: 'StartupX', bio: 'Building teams and scaling engineering orgs.' }
+  ];
+
+  // Helpers for localStorage meetings and chat
+  const MEETINGS_KEY = 'campus_meetings';
+
+  function loadMeetings(){
+    try{ return JSON.parse(localStorage.getItem(MEETINGS_KEY) || '[]'); }catch(e){ return []; }
+  }
+  function saveMeetings(list){ localStorage.setItem(MEETINGS_KEY, JSON.stringify(list)); }
+  function addMeeting(meet){ const arr = loadMeetings(); arr.push(meet); saveMeetings(arr); }
+  function removeMeeting(id){ const arr = loadMeetings().filter(m => m.id !== id); saveMeetings(arr); }
+
+  // Chat storage per mentor
+  function chatKey(mentorId){ return `campus_chat_${mentorId}`; }
+  function loadChat(mentorId){ try{ return JSON.parse(localStorage.getItem(chatKey(mentorId)) || '[]'); }catch(e){ return []; } }
+  function saveChat(mentorId, messages){ localStorage.setItem(chatKey(mentorId), JSON.stringify(messages)); }
+  function appendChatMessage(mentorId, msg){ const msgs = loadChat(mentorId); msgs.push(msg); saveChat(mentorId, msgs); }
+
+  // Render mentors
+  const grid = document.getElementById('mentorsGrid');
+  const searchInput = document.getElementById('searchInput');
+
+  function renderMentors(filter=''){
+    grid.innerHTML = '';
+    const q = filter.trim().toLowerCase();
+    const list = mentors.filter(m => !q || (m.name+m.role+m.company+m.bio).toLowerCase().includes(q));
+    list.forEach(m => {
+      const card = document.createElement('article');
+      card.className = 'mentor-card';
+      card.innerHTML = `
+        <div class="card-left">
+          <div class="avatar-lg">${initials(m.name)}</div>
+        </div>
+        <div class="card-body">
+          <h3>${m.name}</h3>
+          <div class="meta">${m.role} — ${m.company}</div>
+          <p class="bio">${m.bio}</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn message-btn" data-id="${m.id}">Message</button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    // attach handlers
+    document.querySelectorAll('.message-btn').forEach(btn => {
+      btn.addEventListener('click', () => openChat(btn.dataset.id));
+    });
+  }
+
+  function initials(name){ return name.split(' ').map(s=>s[0]).join('').slice(0,2).toUpperCase(); }
+
+  // Chat panel logic
+  const chatPanel = document.getElementById('chatPanel');
+  const chatMentorName = document.getElementById('chatMentorName');
+  const chatMentorMeta = document.getElementById('chatMentorMeta');
+  const chatMentorAvatar = document.getElementById('chatMentorAvatar');
+  const chatMessages = document.getElementById('chatMessages');
+  const chatInput = document.getElementById('chatInput');
+  const sendMsgBtn = document.getElementById('sendMsgBtn');
+  const closeChatBtn = document.getElementById('closeChatBtn');
+  const scheduleBtn = document.getElementById('scheduleBtn');
+
+  let activeMentor = null;
+
+  function openChat(mentorId){
+    const m = mentors.find(x=>x.id===mentorId); if(!m) return;
+    activeMentor = m;
+    chatMentorName.textContent = m.name;
+    chatMentorMeta.textContent = `${m.role} • ${m.company}`;
+    chatMentorAvatar.textContent = initials(m.name);
+    chatPanel.setAttribute('aria-hidden','false'); chatPanel.classList.add('open');
+    renderChatMessages();
+  }
+  function closeChat(){ activeMentor = null; chatPanel.setAttribute('aria-hidden','true'); chatPanel.classList.remove('open'); }
+
+  function renderChatMessages(){
+    // render messages without date/time metadata (clean dialog per request)
+    if(!activeMentor) return;
+    const msgs = loadChat(activeMentor.id);
+    chatMessages.innerHTML = '';
+    msgs.forEach(m => {
+      const el = document.createElement('div');
+      el.className = 'chat-msg ' + (m.from === 'me' ? 'out' : (m.from==='system' ? 'sys' : 'in'));
+      let inner = '';
+      if(m.type === 'file'){
+        const name = escapeHtml(m.name || 'file');
+        inner = `<div class="msg-text"><a class="file-link" href="${m.dataUrl}" download="${name}">${name}</a></div>`;
+      } else {
+        inner = `<div class="msg-text">${escapeHtml(m.text || '')}</div>`;
+      }
+      el.innerHTML = inner;
+      chatMessages.appendChild(el);
+    });
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  sendMsgBtn.addEventListener('click', ()=>{
+    const txt = chatInput.value.trim(); if(!txt || !activeMentor) return;
+    const msg = { from: 'me', text: txt, at: Date.now() };
+    appendChatMessage(activeMentor.id, msg);
+    chatInput.value = '';
+    renderChatMessages();
+    // simple auto-reply to make chat feel alive
+    setTimeout(()=>{
+      const reply = { from: 'mentor', text: 'Thanks — I got your message. If you want to schedule, click Schedule.', at: Date.now() };
+      appendChatMessage(activeMentor.id, reply); renderChatMessages();
+    }, 800);
+  });
+
+  // Attach file flow
+  const attachBtn = document.getElementById('attachBtn');
+  const attachInput = document.getElementById('attachInput');
+  attachBtn.addEventListener('click', ()=> attachInput.click());
+  attachInput.addEventListener('change', (e)=>{
+    const f = e.target.files && e.target.files[0]; if(!f || !activeMentor) return;
+    const reader = new FileReader();
+    reader.onload = function(){
+      const dataUrl = reader.result;
+      const msg = { from: 'me', type: 'file', name: f.name, dataUrl, at: Date.now() };
+      appendChatMessage(activeMentor.id, msg);
+      renderChatMessages();
+    };
+    reader.readAsDataURL(f);
+    attachInput.value = '';
+  });
+
+  // Emoji picker (simple)
+  const emojiBtn = document.getElementById('emojiBtn');
+  const EMOJIS = ['😄','👍','🎉','🙏','🙂','🤝','💡','📅'];
+  let emojiPicker = null;
+  emojiBtn.addEventListener('click', (ev)=>{
+    if(emojiPicker){ emojiPicker.remove(); emojiPicker = null; return; }
+    emojiPicker = document.createElement('div');
+    emojiPicker.className = 'emoji-picker';
+    EMOJIS.forEach(e=>{
+      const b = document.createElement('button'); b.type='button'; b.className='emoji-item'; b.textContent = e;
+      b.addEventListener('click', ()=>{ chatInput.value = (chatInput.value || '') + e; chatInput.focus(); emojiPicker.remove(); emojiPicker = null; });
+      emojiPicker.appendChild(b);
+    });
+    document.body.appendChild(emojiPicker);
+    const r = emojiBtn.getBoundingClientRect();
+    emojiPicker.style.left = (r.left) + 'px';
+    emojiPicker.style.top = (r.top - 56) + 'px';
+  });
+
+  closeChatBtn.addEventListener('click', closeChat);
+  scheduleBtn.addEventListener('click', openScheduleModal);
+
+  // Scheduling modal
+  const scheduleModal = document.getElementById('scheduleModal');
+  const dateSelect = document.getElementById('dateSelect');
+  const timeSelect = document.getElementById('timeSelect');
+  const durationSelect = document.getElementById('durationSelect');
+  const scheduleMentorLabel = document.getElementById('scheduleMentorLabel');
+  const confirmScheduleBtn = document.getElementById('confirmScheduleBtn');
+  const cancelScheduleBtn = document.getElementById('cancelScheduleBtn');
+
+  function openScheduleModal(){
+    if(!activeMentor) return alert('Open a chat first');
+    populateDateTimeOptions();
+    scheduleMentorLabel.textContent = `With ${activeMentor.name} (${activeMentor.role})`;
+    scheduleModal.setAttribute('aria-hidden','false'); scheduleModal.classList.add('open');
+  }
+  function closeScheduleModal(){ scheduleModal.setAttribute('aria-hidden','true'); scheduleModal.classList.remove('open'); }
+
+  function populateDateTimeOptions(){
+    dateSelect.innerHTML = '';
+    const now = new Date();
+    for(let i=0;i<7;i++){
+      const d = new Date(now.getFullYear(), now.getMonth(), now.getDate()+i);
+      const label = d.toLocaleDateString(undefined, { weekday:'short', month:'short', day:'numeric' });
+      dateSelect.appendChild(new Option(label, d.toISOString().slice(0,10)));
+    }
+    // time slots 9:00 to 17:00 step 1h
+    timeSelect.innerHTML = '';
+    for(let h=9; h<=17; h++){
+      const hh = String(h).padStart(2,'0')+':00';
+      timeSelect.appendChild(new Option(hh, hh));
+    }
+  }
+
+  confirmScheduleBtn.addEventListener('click', ()=>{
+    if(!activeMentor) return;
+    const date = dateSelect.value; const time = timeSelect.value; const duration = Number(durationSelect.value);
+    if(!date || !time) return alert('Pick date and time');
+    const startISO = new Date(date + 'T' + time + ':00').toISOString();
+    // simple conflict check for same mentor+start time
+    const conflicts = loadMeetings().some(m => m.mentorId === activeMentor.id && m.startISO === startISO);
+    if(conflicts) return alert('You already have a meeting with this mentor at that time');
+    const meet = { id: 'meet_' + Date.now(), mentorId: activeMentor.id, mentorName: activeMentor.name, startISO, durationMin: duration, createdAt: Date.now(), status: 'scheduled' };
+    addMeeting(meet);
+    // insert system message in chat
+    const sysMsg = { from: 'system', text: `Meeting scheduled on ${new Date(startISO).toLocaleString()} for ${duration} minutes.`, at: Date.now(), meetingId: meet.id };
+    appendChatMessage(activeMentor.id, sysMsg);
+    renderChatMessages();
+    closeScheduleModal();
+    // keep chat open and show confirmation
+    alert('Meeting confirmed — appears in chat and My Meetings');
+  });
+  cancelScheduleBtn.addEventListener('click', closeScheduleModal);
+
+  // Meetings modal
+  const meetingsModal = document.getElementById('meetingsModal');
+  const meetingsList = document.getElementById('meetingsList');
+  const myMeetingsBtn = document.getElementById('myMeetingsBtn');
+  const closeMeetingsBtn = document.getElementById('closeMeetingsBtn');
+
+  myMeetingsBtn.addEventListener('click', ()=>{
+    renderMeetings();
+    meetingsModal.setAttribute('aria-hidden','false'); meetingsModal.classList.add('open');
+  });
+  closeMeetingsBtn.addEventListener('click', ()=>{ meetingsModal.setAttribute('aria-hidden','true'); meetingsModal.classList.remove('open'); });
+
+  function renderMeetings(){
+    const arr = loadMeetings().sort((a,b)=> new Date(a.startISO)-new Date(b.startISO));
+    if(arr.length===0) meetingsList.innerHTML = '<p>No meetings scheduled.</p>';
+    else{
+      meetingsList.innerHTML = '';
+      arr.forEach(m => {
+        const el = document.createElement('div'); el.className = 'meeting-item';
+        el.innerHTML = `<div class="meet-left"><div class="avatar-sm">${initials(m.mentorName)}</div></div>
+          <div class="meet-body"><div class="meet-title">${m.mentorName}</div><div class="meet-meta">${new Date(m.startISO).toLocaleString()} • ${m.durationMin} min</div></div>
+          <div class="meet-actions"><button class="btn danger cancel-meet" data-id="${m.id}">Cancel</button></div>`;
+        meetingsList.appendChild(el);
+      });
+      document.querySelectorAll('.cancel-meet').forEach(b=>b.addEventListener('click', ev=>{
+        const id = b.dataset.id || ev.target.dataset.id; if(!id) return;
+        if(!confirm('Cancel this meeting?')) return;
+        removeMeeting(id);
+        // also add system message in chat for that mentor
+        const meetings = loadMeetings(); // after removal - but we need mentor id; simpler: reload UI and update
+        // reload meetings UI
+        renderMeetings();
+        // Optionally append a system message to the mentor chat explaining cancellation
+        // Look up mentor id via removed meeting — we didn't keep it; re-fetch from saved meetings before deletion would be more robust. For now we refresh lists and UI.
+      }));
+    }
+  }
+
+  // initialization
+  renderMentors();
+  searchInput.addEventListener('input', ()=>renderMentors(searchInput.value));
+
+  // populate topbar profile from localStorage (same behavior as dashboard)
+  (function(){
+    const STORAGE_KEY = 'campus_profile';
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    try{
+      const p = JSON.parse(raw);
+      const nameEl = document.getElementById('topName');
+      const avatarEl = document.getElementById('topAvatar');
+      if(nameEl) nameEl.textContent = p.name || 'Profile';
+      if(avatarEl){
+        if(p.avatarDataUrl){
+          avatarEl.style.backgroundImage = `url('${p.avatarDataUrl}')`;
+          avatarEl.textContent = '';
+          avatarEl.style.backgroundSize = 'cover';
+        } else {
+          avatarEl.textContent = (p.name||'').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase() || 'ME';
+        }
+      }
+    }catch(e){console.error(e)}
+  })();
+
+  // topbar profile dropdown behavior (reuse dashboard logic)
+  (function(){
+    const trigger = document.getElementById('profileTrigger');
+    const menu = document.getElementById('profileMenu');
+    const container = document.getElementById('topProfile');
+    if(!trigger || !menu) return;
+    function openMenu(){ container.classList.add('open'); trigger.setAttribute('aria-expanded','true'); menu.setAttribute('aria-hidden','false'); }
+    function closeMenu(){ container.classList.remove('open'); trigger.setAttribute('aria-expanded','false'); menu.setAttribute('aria-hidden','true'); }
+    trigger.addEventListener('click', function(e){ const isOpen = container.classList.contains('open'); if(isOpen) closeMenu(); else openMenu(); });
+    document.addEventListener('click', function(e){ if(!container.contains(e.target)) closeMenu(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeMenu(); });
+    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+  })();
+
+  // keyboard accessibility: esc closes modals and chat
+  document.addEventListener('keydown', e=>{
+    if(e.key === 'Escape'){
+      if(scheduleModal.classList.contains('open')) closeScheduleModal();
+      if(meetingsModal.classList.contains('open')){ meetingsModal.setAttribute('aria-hidden','true'); meetingsModal.classList.remove('open'); }
+      if(chatPanel.classList.contains('open')) closeChat();
+    }
+  });
+
+  // on page load, if we were navigated back to via a scheduled meeting link (not implemented) we could open chat
+  </script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+/* Basic styles for Find Mentors page */
+/* Basic styles for Find Mentors page */
+:root {
+  --bg: #f7f8fb;
+  --card: #ffffff;
+  --muted: #666;
+  --accent: #2b6ef6;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Inter, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: #111;
+}
+
+.fm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background: linear-gradient(90deg, #fff, #fbfdff);
+  border-bottom: 1px solid rgba(43,110,246,0.12);
+  background: linear-gradient(90deg, rgba(43,110,246,0.06), rgba(43,110,246,0.03));
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 18px rgba(43,110,246,0.04);
+}
+
+.fm-header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.app-left{display:flex;align-items:center;gap:12px}
+.app-brand{font-weight:800;color:var(--accent);text-decoration:none;margin-right:12px}
+.app-right{display:flex;gap:10px;align-items:center}
+.profile-link{color:#234;font-weight:600;text-decoration:none;padding:6px 10px;border-radius:8px}
+.logout-link{color:#b33;text-decoration:none;padding:6px 10px;border-radius:8px}
+.controls-row{display:flex;align-items:center;justify-content:space-between;padding:14px 26px}
+.controls-left{flex:1}
+.controls-center{flex:1;display:flex;align-items:center;justify-content:center;gap:12px}
+.controls-right{flex:1;display:flex;justify-content:flex-end}
+.page-title{margin:0;font-size:20px}
+/* Ensure links have no underline */
+.back-link, .app-brand, .profile-link, .logout-link, .profile-menu a { text-decoration: none; }
+
+/* Header center placement */
+.fm-header-center{flex:1;display:flex;align-items:center;justify-content:center}
+
+.fm-right input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #dde6f4;
+  width: 320px;
+}
+
+.btn {
+  background: var(--accent);
+  color: white;
+  border: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid rgba(43, 110, 246, 0.15);
+}
+
+.btn.small {
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.btn.danger {
+  background: #e53e3e;
+}
+
+.main {
+  padding: 24px;
+}
+
+.mentors-grid {
+  display: grid;
+  /* target roughly 3 cards per row on wide screens */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 26px;
+}
+
+/* Search wrapper and icon */
+.search-wrapper{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.9);padding:8px 10px;border-radius:12px;box-shadow:0 4px 18px rgba(16,24,40,0.06);max-width:680px;width:60%}
+.search-wrapper .search-icon{font-size:18px;color:var(--accent);margin-right:6px}
+.search-wrapper input{flex:1;border:0;outline:none;padding:10px 8px;font-size:15px;background:transparent}
+
+/* Profile dropdown styling to match dashboard */
+.profile{position:relative}
+.profile .profile-link{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;background:transparent}
+.profile .avatar{width:36px;height:36px;border-radius:50%;background:#cfe3ff;color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700}
+.profile-menu{position:absolute;right:0;top:48px;background:#fff;border-radius:8px;box-shadow:0 12px 40px rgba(2,6,23,0.12);padding:8px 0;min-width:160px;display:none}
+.profile.open .profile-menu{display:block}
+.profile-menu a{display:block;padding:8px 12px;color:#223;text-decoration:none}
+.profile-menu a:hover{background:#f5f8ff}
+
+@media (max-width: 900px) {
+  .search-wrapper{width:100%;max-width:none}
+  .mentors-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+.mentor-card{
+  display:flex;flex-direction:column;gap:12px;background:linear-gradient(180deg,#fff,#fbfeff);padding:14px;border-radius:14px;box-shadow:0 6px 18px rgba(32,33,36,0.06);align-items:flex-start;transition:transform .12s ease,box-shadow .12s ease}
+.mentor-card:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(32,33,36,0.12)}
+.mentor-card .card-left{width:100%}
+.card-left .avatar-lg{width:72px;height:72px;border-radius:12px;background:linear-gradient(90deg,#e6f0ff,#dde9ff);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px}
+.card-body{display:block;width:100%}
+.card-body h3{margin:6px 0 4px}
+.card-body .meta{color:var(--muted);font-size:13px}
+.card-body .bio{margin-top:8px;color:#556;font-size:13px}
+.card-actions{width:100%;display:flex;justify-content:flex-end}
+.message-btn{background:linear-gradient(90deg,var(--accent),#2b8af6);border-radius:8px;padding:8px 12px;color:#fff}
+
+.card-left .avatar-lg {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  background: #dde9ff;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.card-body h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.card-body .meta {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.card-body .bio {
+  margin: 8px 0 0;
+  color: #444;
+  font-size: 13px;
+}
+
+.card-actions {
+  margin-left: auto;
+}
+
+.chat-panel{position:fixed;right:20px;bottom:20px;width:480px;max-height:78vh;background:#fff;border-radius:14px;box-shadow:0 18px 50px rgba(10,20,40,0.14);overflow:hidden;display:flex;flex-direction:column;transform:translateY(20px);opacity:0;pointer-events:none}
+
+.chat-panel.open {
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid #eef2ff;
+}
+
+.mentor-info {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.avatar-sm {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #dde9ff;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.chat-messages{padding:16px;overflow:auto;flex:1;background:linear-gradient(180deg,#fbfdff,#fff)}
+.chat-msg .msg-text{font-size:15px;line-height:1.35}
+.file-link{color:var(--accent);text-decoration:none;border:1px dashed #e6f0ff;padding:8px;border-radius:8px;display:inline-block}
+
+.chat-msg {
+  max-width: 78%;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.chat-msg.in {
+  background: #f1f5ff;
+  margin-right: auto;
+}
+
+.chat-msg.out {
+  background: linear-gradient(90deg, var(--accent), #2b8af6);
+  color: white;
+  margin-left: auto;
+}
+
+.chat-msg.sys {
+  background: #fff3cd;
+  border: 1px solid #f1e0a8;
+  color: #6f5500;
+}
+
+.chat-footer{display:flex;gap:8px;padding:12px;border-top:1px solid #f0f2f7;align-items:center}
+.chat-tools{display:flex;gap:8px;margin-right:6px}
+.emoji-picker{position:fixed;background:#fff;padding:8px;border-radius:8px;box-shadow:0 6px 24px rgba(10,20,40,0.12);display:flex;gap:6px}
+.emoji-item{background:transparent;border:0;font-size:18px;padding:6px;cursor:pointer}
+.chat-footer input{flex:1;padding:10px;border-radius:10px;border:1px solid #e7eefc;font-size:14px}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(12, 18, 30, 0.32);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal .modal-content {
+  background: #fff;
+  padding: 18px;
+  border-radius: 12px;
+  min-width: 320px;
+  max-width: 520px;
+}
+
+.modal .modal-content.small {
+  max-width: 420px;
+}
+
+.form-row {
+  margin: 12px 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.form-row label {
+  width: 110px;
+  color: var(--muted);
+}
+
+.form-row select {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e6eefc;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.meeting-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-bottom: 1px solid #f2f4f8;
+}
+
+.meet-left .avatar-sm {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+}
+
+.meet-body .meet-title {
+  font-weight: 600;
+}
+
+.meet-body .meet-meta {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .chat-panel{width:100%;right:0;left:0;margin:0;border-radius:0}
+  .fm-right input{width:160px}
+  .mentors-grid{grid-template-columns:repeat(2,1fr)}
+}

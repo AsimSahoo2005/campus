@@ -170,3 +170,10 @@ h2 { margin:8px 0 18px }
     linear-gradient(135deg, #ef4444, #dc2626);
 }
 
+.teal {
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 30%),
+    radial-gradient(circle at 90% 80%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 40%),
+    linear-gradient(135deg, #14b8a6, #0ea5a3);
+}
+
