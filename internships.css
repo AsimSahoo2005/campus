@@ -1,0 +1,79 @@
+/* internships.css */
+
+.internship-filters {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0 1.5rem 0;
+}
+.internship-filters input,
+.internship-filters select {
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  font-size: 1rem;
+}
+.internship-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 2rem;
+}
+.internship-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  position: relative;
+}
+.internship-type {
+  color: #00bfa6;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.internship-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+.internship-company {
+  color: #666;
+  font-size: 1.05rem;
+}
+.internship-location {
+  color: #888;
+  font-size: 0.98rem;
+}
+.internship-tags span {
+  background: #f0f4ff;
+  color: #3b4cca;
+  border-radius: 6px;
+  padding: 0.2rem 0.7rem;
+  margin-right: 0.5rem;
+  font-size: 0.93rem;
+  font-weight: 500;
+}
+.internship-meta {
+  color: #888;
+  font-size: 0.95rem;
+}
+.internship-meta .pay {
+  color: #00bfa6;
+  font-weight: 600;
+}
+.apply-btn {
+  margin-top: 0.7rem;
+  background: #3b4cca;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.apply-btn:hover {
+  background: #25308a;
+}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback | Campus Connect</title>
+    <link rel="stylesheet" href="feedback.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+        <div class="app-shell">
+            <aside class="sidebar">
+                <div class="sidebar-top">
+                    <div class="sidebar-logo">🎓</div>
+                </div>
+                <nav class="nav">
+                    <a href="find-mentors.html" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">Find Mentors</span></a>
+                    <a href="hackathons.html" class="nav-item"><span class="nav-emoji">💻</span><span class="nav-label">Hackathons</span></a>
+                    <a href="internships.html" class="nav-item"><span class="nav-emoji">💼</span><span class="nav-label">Internships</span></a>
+                    <a href="talk-events.html" class="nav-item"><span class="nav-emoji">📅</span><span class="nav-label">Talk Events</span></a>
+                    <a href="feeds.html" class="nav-item"><span class="nav-emoji">📰</span><span class="nav-label">Feeds</span></a>
+                    <a href="recent-events.html" class="nav-item"><span class="nav-emoji">🗓️</span><span class="nav-label">Recent Events</span></a>
+                    <a href="academics.html" class="nav-item"><span class="nav-emoji">🎓</span><span class="nav-label">Academics</span></a>
+                    <a href="feedback.html" class="nav-item active"><span class="nav-emoji">💬</span><span class="nav-label">Feedback</span></a>
+                </nav>
+            </aside>
+
+            <header class="topbar">
+                <div class="top-left">
+                    <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+                    <div class="brand">Campus Connect</div>
+                </div>
+                <div class="top-right">
+                        <div class="profile" id="topProfile">
+                                <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+                                    <div class="profile-name" id="topName">Profile</div>
+                                    <div class="avatar" id="topAvatar">ME</div>
+                                </div>
+                                <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+                                    <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
+                                    <a role="menuitem" href="welcome.html" id="menuLogout">Log out</a>
+                                </div>
+                        </div>
+                </div>
+            </header>
+
+            <main class="main-area">
+                <div class="container">
+                    <a href="dashboard.html" style="display:inline-block;margin-bottom:18px;color:#7b61ff;text-decoration:none;font-weight:500">&larr; Back to Dashboard</a>
+                    <h2>Share Your Feedback</h2>
+                    <p>We value your opinion! Let us know how we can improve Campus Connect.</p>
+                    <form class="feedback-form" id="feedbackForm">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" value="" readonly>
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" name="email" value="" readonly>
+                            <label for="category">Feedback Category</label>
+                            <select id="category" name="category" required>
+                                    <option value="">Select a category...</option>
+                                    <option>Bug Report</option>
+                                    <option>Feature Request</option>
+                                    <option>General Suggestion</option>
+                                    <option>Compliment</option>
+                            </select>
+                            <label for="message">Your Message</label>
+                            <textarea id="message" name="message" placeholder="Tell us about your experience, what you liked, or any suggestions you have..." minlength="10" required style="min-height:220px;width:100%;max-width:100%;"></textarea>
+                            <button type="submit">Submit Feedback</button>
+                    </form>
+                    <div id="feedbackSuccess" class="feedback-success" style="display:none;">Thank you for your feedback!</div>
+                </div>
+            </main>
+        </div>
+        <script>
+            (function(){
+                const btn = document.getElementById('menuBtn');
+                const sidebar = document.querySelector('.sidebar');
+                const topbar = document.querySelector('.topbar');
+                const main = document.querySelector('.main-area');
+                if(btn && sidebar && topbar && main){
+                    btn.addEventListener('click', function(){
+                        const collapsed = sidebar.classList.toggle('collapsed');
+                        topbar.classList.toggle('shifted', collapsed);
+                        main.classList.toggle('collapsed', collapsed);
+                        btn.setAttribute('aria-expanded', String(!collapsed));
+                    });
+                }
+            })();
+            // populate topbar profile and feedback form from localStorage
+            (function(){
+                const STORAGE_KEY = 'campus_profile';
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if(!raw) return;
+                try{
+                    const p = JSON.parse(raw);
+                    // Topbar
+                    const nameEl = document.getElementById('topName');
+                    const avatarEl = document.getElementById('topAvatar');
+                    nameEl.textContent = p.name || 'Profile';
+                    if(p.avatarDataUrl){
+                        avatarEl.style.backgroundImage = `url('${p.avatarDataUrl}')`;
+                        avatarEl.textContent = '';
+                        avatarEl.style.backgroundSize = 'cover';
+                    } else {
+                        avatarEl.textContent = (p.name||'').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase() || 'ME';
+                    }
+                    // Feedback form
+                    var nameInput = document.getElementById('name');
+                    var emailInput = document.getElementById('email');
+                    if(nameInput && p.name) nameInput.value = p.name;
+                    if(emailInput && p.email) emailInput.value = p.email;
+                }catch(e){ console.error(e) }
+            })();
+            // topbar profile dropdown behavior
+            (function(){
+                const trigger = document.getElementById('profileTrigger');
+                const menu = document.getElementById('profileMenu');
+                const container = document.getElementById('topProfile');
+                if(!trigger || !menu) return;
+                function openMenu(){
+                    container.classList.add('open');
+                    trigger.setAttribute('aria-expanded','true');
+                    menu.setAttribute('aria-hidden','false');
+                }
+                function closeMenu(){
+                    container.classList.remove('open');
+                    trigger.setAttribute('aria-expanded','false');
+                    menu.setAttribute('aria-hidden','true');
+                }
+                trigger.addEventListener('click', function(e){
+                    const isOpen = container.classList.contains('open');
+                    if(isOpen) closeMenu(); else openMenu();
+                });
+                document.addEventListener('click', function(e){
+                    if(!container.contains(e.target)) closeMenu();
+                });
+                document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeMenu(); });
+                menu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+            })();
+            // Feedback form logic
+            document.getElementById('feedbackForm').onsubmit = function(e) {
+                e.preventDefault();
+                document.getElementById('feedbackSuccess').style.display = 'block';
+            };
+        </script>
+</body>
+</html>

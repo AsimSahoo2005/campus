@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Internships & Vacancies | Campus Connect</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="internships.css" />
+</head>
+<body>
+  <!-- Sidebar and Header (reuse dashboard structure) -->
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <div class="sidebar-logo">🎓</div>
+    </div>
+    <nav class="nav">
+      <a href="find-mentors.html" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">Find Mentors</span></a>
+      <a href="hackathons.html" class="nav-item"><span class="nav-emoji">💻</span><span class="nav-label">Hackathons</span></a>
+      <a href="internships.html" class="nav-item"><span class="nav-emoji">💼</span><span class="nav-label">Internships</span></a>
+      <a href="talk-events.html" class="nav-item"><span class="nav-emoji">📅</span><span class="nav-label">Talk Events</span></a>
+      <a href="#" class="nav-item"><span class="nav-emoji">📰</span><span class="nav-label">Feeds</span></a>
+      <a href="recent-events.html" class="nav-item"><span class="nav-emoji">🗓️</span><span class="nav-label">Recent Events</span></a>
+      <a href="academics.html" class="nav-item"><span class="nav-emoji">🎓</span><span class="nav-label">Academics</span></a>
+      <a href="#" class="nav-item"><span class="nav-emoji">💬</span><span class="nav-label">Feedback</span></a>
+    </nav>
+  </aside>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="top-left">
+        <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+        <div class="brand">Campus Connect</div>
+      </div>
+      <div class="top-right">
+        <div class="profile" id="topProfile">
+          <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+            <div class="profile-name" id="topName">Profile</div>
+            <div class="avatar" id="topAvatar">ME</div>
+          </div>
+          <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+            <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
+            <a role="menuitem" href="welcome.html" id="menuLogout">Log out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="main-area">
+      <div class="container">
+        <div class="page-title">Internships & Vacancies</div>
+        <div class="internship-filters">
+          <input type="text" placeholder="Search by title, company, or skill" />
+          <select><option>All Locations</option></select>
+          <select><option>All Types</option></select>
+        </div>
+        <div class="internship-list">
+          <!-- Example Internship Cards -->
+          <div class="internship-card">
+            <div class="internship-type">Internship</div>
+            <div class="internship-title">Frontend Developer Intern</div>
+            <div class="internship-company">Vercel</div>
+            <div class="internship-location">Remote</div>
+            <div class="internship-tags">
+              <span>React</span><span>Next.js</span><span>TypeScript</span>
+            </div>
+            <div class="internship-meta">
+              <span>2 days ago</span> | <span class="pay">$40/hr</span>
+            </div>
+            <button class="apply-btn" onclick="window.location.href='application.html'">Apply</button>
+          </div>
+          <div class="internship-card">
+            <div class="internship-type">Internship</div>
+            <div class="internship-title">Data Science Intern</div>
+            <div class="internship-company">Hugging Face</div>
+            <div class="internship-location">Remote</div>
+            <div class="internship-tags">
+              <span>Python</span><span>PyTorch</span><span>NLP</span>
+            </div>
+            <div class="internship-meta">
+              <span>3 days ago</span> | <span class="pay">$50/hr</span>
+            </div>
+            <button class="apply-btn" onclick="window.location.href='application.html'">Apply</button>
+          </div>
+          <div class="internship-card">
+            <div class="internship-type">Internship</div>
+            <div class="internship-title">Backend Engineering Intern</div>
+            <div class="internship-company">Supabase</div>
+            <div class="internship-location">On-site</div>
+            <div class="internship-tags">
+              <span>PostgreSQL</span><span>Node.js</span><span>Docker</span>
+            </div>
+            <div class="internship-meta">
+              <span>1 week ago</span> | <span class="pay">$35/hr</span>
+            </div>
+            <button class="apply-btn" onclick="window.location.href='application.html'">Apply</button>
+          </div>
+          <div class="internship-card">
+            <div class="internship-type">Internship (Alumni)</div>
+            <div class="internship-title">Full-stack Developer</div>
+            <div class="internship-company">Alumni: Priya Sinha</div>
+            <div class="internship-location">Remote</div>
+            <div class="internship-tags">
+              <span>React</span><span>Node.js</span><span>MongoDB</span>
+            </div>
+            <div class="internship-meta">
+              <span>2 days ago</span> | <span class="pay">$45/hr</span>
+            </div>
+            <button class="apply-btn" onclick="window.location.href='application.html'">Apply</button>
+          </div>
+          <div class="internship-card">
+            <div class="internship-type">Internship (Alumni)</div>
+            <div class="internship-title">UI/UX Intern</div>
+            <div class="internship-company">Alumni: Rahul Verma</div>
+            <div class="internship-location">On-site</div>
+            <div class="internship-tags">
+              <span>Figma</span><span>UX Research</span><span>Prototyping</span>
+            </div>
+            <div class="internship-meta">
+              <span>5 days ago</span> | <span class="pay">$30/hr</span>
+            </div>
+            <button class="apply-btn" onclick="window.location.href='application.html'">Apply</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>
+    (function(){
+      const btn = document.getElementById('menuBtn');
+      const sidebar = document.querySelector('.sidebar');
+      const topbar = document.querySelector('.topbar');
+      const main = document.querySelector('.main-area');
+      btn.addEventListener('click', function(){
+        const collapsed = sidebar.classList.toggle('collapsed');
+        topbar.classList.toggle('shifted', collapsed);
+        main.classList.toggle('collapsed', collapsed);
+        btn.setAttribute('aria-expanded', String(!collapsed));
+      });
+    })();
+    (function(){
+      const STORAGE_KEY = 'campus_profile';
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return;
+      try{
+        const p = JSON.parse(raw);
+        const nameEl = document.getElementById('topName');
+        const avatarEl = document.getElementById('topAvatar');
+        nameEl.textContent = p.name || 'Profile';
+        if(p.avatarDataUrl){
+          avatarEl.style.backgroundImage = `url('${p.avatarDataUrl}')`;
+          avatarEl.textContent = '';
+          avatarEl.style.backgroundSize = 'cover';
+        } else {
+          avatarEl.textContent = (p.name||'').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase() || 'ME';
+        }
+      }catch(e){ console.error(e) }
+    })();
+    (function(){
+      const trigger = document.getElementById('profileTrigger');
+      const menu = document.getElementById('profileMenu');
+      const container = document.getElementById('topProfile');
+      if(!trigger || !menu) return;
+      function openMenu(){
+        container.classList.add('open');
+        trigger.setAttribute('aria-expanded','true');
+        menu.setAttribute('aria-hidden','false');
+      }
+      function closeMenu(){
+        container.classList.remove('open');
+        trigger.setAttribute('aria-expanded','false');
+        menu.setAttribute('aria-hidden','true');
+      }
+      trigger.addEventListener('click', function(e){
+        const isOpen = container.classList.contains('open');
+        if(isOpen) closeMenu(); else openMenu();
+      });
+      document.addEventListener('click', function(e){
+        if(!container.contains(e.target)) closeMenu();
+      });
+      document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeMenu(); });
+      menu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+    })();
+  </script>
+</body>
+</html>

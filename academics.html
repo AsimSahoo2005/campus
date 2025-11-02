@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Academics | Campus Connect</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="academics.css" />
+</head>
+<body>
+  <!-- Sidebar and Header (reuse dashboard structure) -->
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <div class="sidebar-logo">🎓</div>
+    </div>
+    <nav class="nav">
+      <a href="find-mentors.html" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">Find Mentors</span></a>
+      <a href="hackathons.html" class="nav-item"><span class="nav-emoji">💻</span><span class="nav-label">Hackathons</span></a>
+      <a href="internships.html" class="nav-item"><span class="nav-emoji">💼</span><span class="nav-label">Internships</span></a>
+      <a href="talk-events.html" class="nav-item"><span class="nav-emoji">📅</span><span class="nav-label">Talk Events</span></a>
+      <a href="#" class="nav-item"><span class="nav-emoji">📰</span><span class="nav-label">Feeds</span></a>
+      <a href="recent-events.html" class="nav-item"><span class="nav-emoji">🗓️</span><span class="nav-label">Recent Events</span></a>
+      <a href="academics.html" class="nav-item"><span class="nav-emoji">🎓</span><span class="nav-label">Academics</span></a>
+      <a href="#" class="nav-item"><span class="nav-emoji">💬</span><span class="nav-label">Feedback</span></a>
+    </nav>
+  </aside>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="top-left">
+        <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+        <div class="brand">Campus Connect</div>
+      </div>
+      <div class="top-right">
+        <div class="profile" id="topProfile">
+          <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+            <div class="profile-name" id="topName">Profile</div>
+            <div class="avatar" id="topAvatar">ME</div>
+          </div>
+          <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+            <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
+            <a role="menuitem" href="welcome.html" id="menuLogout">Log out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="main-area">
+      <div class="container">
+        <div class="page-title">Academic Performance</div>
+        <div class="academics-profile">
+          <div class="profile-summary">
+            <div id="acadAvatar" class="profile-avatar">CH</div>
+            <div class="profile-info">
+              <div id="acadName" class="profile-name">Asim Anshuman Sahoo</div>
+              <div id="acadCollege" class="profile-university">Silicon University</div>
+            </div>
+          </div>
+          <div class="profile-contact">
+            <div>Email: <span id="acadEmail">xyz@gmail.com</span></div>
+            <div>Phone: <span id="acadPhone">+91 123-456-7890</span></div>
+            <div>Location: <span id="acadLocation">Bhubaneswar, Odisha, India</span></div>
+          </div>
+        </div>
+        <div class="academics-section">
+          <h3>Academic Progress</h3>
+          <div class="progress-group">
+            <div class="progress-label">Semester 1 GPA</div>
+            <div class="progress-bar"><div class="progress" style="width:92%">9.2</div></div>
+          </div>
+          <div class="progress-group">
+            <div class="progress-label">Semester 2 GPA</div>
+            <div class="progress-bar"><div class="progress" style="width:89%">8.9</div></div>
+          </div>
+          <div class="progress-group">
+            <div class="progress-label">Semester 3 GPA</div>
+            <div class="progress-bar"><div class="progress" style="width:91%">9.1</div></div>
+          </div>
+          <div class="progress-group">
+            <div class="progress-label">Semester 4 GPA</div>
+            <div class="progress-bar"><div class="progress" style="width:88%">8.8</div></div>
+          </div>
+          <div class="progress-group">
+            <div class="progress-label">Semester 5 GPA</div>
+            <div class="progress-bar"><div class="progress" style="width:93%">9.3</div></div>
+          </div>
+          <div class="progress-group">
+            <div class="progress-label">Semester 6 GPA</div>
+            <div class="progress-bar"><div class="progress" style="width:90%">9.0</div></div>
+          </div>
+          <div class="progress-group">
+            <div class="progress-label">Semester 7 GPA</div>
+            <div class="progress-bar"><div class="progress" style="width:94%">9.4</div></div>
+          </div>
+          <div class="progress-group">
+            <div class="progress-label">Semester 8 GPA</div>
+            <div class="progress-bar"><div class="progress" style="width:92%">9.2</div></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>
+    (function(){
+      const btn = document.getElementById('menuBtn');
+      const sidebar = document.querySelector('.sidebar');
+      const topbar = document.querySelector('.topbar');
+      const main = document.querySelector('.main-area');
+      btn.addEventListener('click', function(){
+        const collapsed = sidebar.classList.toggle('collapsed');
+        topbar.classList.toggle('shifted', collapsed);
+        main.classList.toggle('collapsed', collapsed);
+        btn.setAttribute('aria-expanded', String(!collapsed));
+      });
+    })();
+    (function(){
+      const STORAGE_KEY = 'campus_profile';
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return;
+      try{
+        const p = JSON.parse(raw);
+
+        // topbar elements
+        const nameEl = document.getElementById('topName');
+        const avatarEl = document.getElementById('topAvatar');
+        if(nameEl) nameEl.textContent = p.name || 'Profile';
+        if(avatarEl){
+          if(p.avatarDataUrl){
+            avatarEl.style.backgroundImage = `url('${p.avatarDataUrl}')`;
+            avatarEl.textContent = '';
+            avatarEl.style.backgroundSize = 'cover';
+          } else {
+            avatarEl.style.backgroundImage = '';
+            avatarEl.textContent = (p.name||'').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase() || 'ME';
+          }
+        }
+
+        // academics page elements (populate from profile)
+        const acadName = document.getElementById('acadName');
+        const acadCollege = document.getElementById('acadCollege');
+        const acadEmail = document.getElementById('acadEmail');
+        const acadPhone = document.getElementById('acadPhone');
+        const acadLocation = document.getElementById('acadLocation');
+        const acadAvatar = document.getElementById('acadAvatar');
+
+        if(acadName) acadName.textContent = p.name || acadName.textContent;
+        if(acadCollege) acadCollege.textContent = p.college || acadCollege.textContent;
+        if(acadEmail) acadEmail.textContent = p.email || acadEmail.textContent;
+        if(acadPhone) acadPhone.textContent = p.phone || acadPhone.textContent;
+        // profile may not have a location field; only replace if present
+        if(acadLocation && p.location) acadLocation.textContent = p.location;
+        if(acadAvatar){
+          if(p.avatarDataUrl){
+            acadAvatar.style.backgroundImage = `url('${p.avatarDataUrl}')`;
+            acadAvatar.textContent = '';
+            acadAvatar.style.backgroundSize = 'cover';
+          } else {
+            acadAvatar.style.backgroundImage = '';
+            acadAvatar.textContent = (p.name||'').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase() || 'CH';
+          }
+        }
+
+      }catch(e){ console.error(e) }
+    })();
+    (function(){
+      const trigger = document.getElementById('profileTrigger');
+      const menu = document.getElementById('profileMenu');
+      const container = document.getElementById('topProfile');
+      if(!trigger || !menu) return;
+      function openMenu(){
+        container.classList.add('open');
+        trigger.setAttribute('aria-expanded','true');
+        menu.setAttribute('aria-hidden','false');
+      }
+      function closeMenu(){
+        container.classList.remove('open');
+        trigger.setAttribute('aria-expanded','false');
+        menu.setAttribute('aria-hidden','true');
+      }
+      trigger.addEventListener('click', function(e){
+        const isOpen = container.classList.contains('open');
+        if(isOpen) closeMenu(); else openMenu();
+      });
+      document.addEventListener('click', function(e){
+        if(!container.contains(e.target)) closeMenu();
+      });
+      document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeMenu(); });
+      menu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+    })();
+  </script>
+</body>
+</html>

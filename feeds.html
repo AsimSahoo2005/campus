@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feeds | Campus Connect</title>
+    <link rel="stylesheet" href="feeds.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+        <div class="app-shell">
+            <aside class="sidebar">
+                <div class="sidebar-top">
+                    <div class="sidebar-logo">🎓</div>
+                </div>
+                <nav class="nav">
+                    <a href="find-mentors.html" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">Find Mentors</span></a>
+                    <a href="hackathons.html" class="nav-item"><span class="nav-emoji">💻</span><span class="nav-label">Hackathons</span></a>
+                    <a href="internships.html" class="nav-item"><span class="nav-emoji">💼</span><span class="nav-label">Internships</span></a>
+                    <a href="talk-events.html" class="nav-item"><span class="nav-emoji">📅</span><span class="nav-label">Talk Events</span></a>
+                    <a href="feeds.html" class="nav-item active"><span class="nav-emoji">📰</span><span class="nav-label">Feeds</span></a>
+                    <a href="recent-events.html" class="nav-item"><span class="nav-emoji">🗓️</span><span class="nav-label">Recent Events</span></a>
+                    <a href="academics.html" class="nav-item"><span class="nav-emoji">🎓</span><span class="nav-label">Academics</span></a>
+                    <a href="feedback.html" class="nav-item"><span class="nav-emoji">💬</span><span class="nav-label">Feedback</span></a>
+                </nav>
+            </aside>
+
+            <header class="topbar">
+                <div class="top-left">
+                    <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+                    <div class="brand">Campus Connect</div>
+                </div>
+                <div class="top-right">
+                        <div class="profile" id="topProfile">
+                                <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+                                    <div class="profile-name" id="topName">Profile</div>
+                                    <div class="avatar" id="topAvatar">ME</div>
+                                </div>
+                                <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+                                    <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
+                                    <a role="menuitem" href="welcome.html" id="menuLogout">Log out</a>
+                                </div>
+                        </div>
+                </div>
+            </header>
+
+            <main class="main-area">
+                <div class="container">
+                    <a href="dashboard.html" style="display:inline-block;margin-bottom:18px;color:#7b61ff;text-decoration:none;font-weight:500">&larr; Back to Dashboard</a>
+                    <h2>Feeds</h2>
+                    <section class="post-box">
+                            <form id="postForm">
+                                    <textarea placeholder="What's on your mind?" required></textarea>
+                                    <div class="post-actions">
+                                            <button type="button">Photo</button>
+                                            <button type="button">Video</button>
+                                            <button type="submit">Post</button>
+                                    </div>
+                            </form>
+                    </section>
+                    <section class="feeds-list">
+                            <div class="feed-post">
+                                <div class="feed-user">Jane Doe <span class="feed-role">(Alumni, Google)</span></div>
+                                <div class="feed-time">2h ago</div>
+                                <div class="feed-content">Excited to share some insights from my journey into large-scale systems! One of the biggest lessons I've learned is the importance of observability. Don't just build, build to be monitored. #alumnitalks</div>
+                                <div class="feed-actions">
+                                    <span>Like</span> <span>Comment</span> <span>Share</span>
+                                </div>
+                            </div>
+                            <div class="feed-post">
+                                <div class="feed-user">Campus Connect @ SU <span class="feed-role">(Official College Page)</span></div>
+                                <div class="feed-time">1d ago</div>
+                                <div class="feed-content">Announcing our annual 'Innovate & Inspire' startup pitch competition! The deadline for applications is November 1st. #startup #innovation</div>
+                                <div class="feed-actions">
+                                    <span>Like</span> <span>Comment</span> <span>Share</span>
+                                </div>
+                            </div>
+                            <div class="feed-post">
+                                <div class="feed-user">Rahul Verma <span class="feed-role">(Alumni, Microsoft)</span></div>
+                                <div class="feed-time">3d ago</div>
+                                <div class="feed-content">Proud to mentor the next generation of innovators at KIIT! Great to see so many students participating in the hackathon. #mentorship</div>
+                                <div class="feed-actions">
+                                    <span>Like</span> <span>Comment</span> <span>Share</span>
+                                </div>
+                            </div>
+                            <div class="feed-post">
+                                <div class="feed-user">Priya Sinha <span class="feed-role">(Student)</span></div>
+                                <div class="feed-time">5d ago</div>
+                                <div class="feed-content">Excited to share that our team won 2nd place in the Tech Fest 2023! Thanks to everyone who supported us. #achievement</div>
+                                <div class="feed-actions">
+                                    <span>Like</span> <span>Comment</span> <span>Share</span>
+                                </div>
+                            </div>
+                            <div class="feed-post">
+                                <div class="feed-user">Siicon Placement Cell <span class="feed-role">(College)</span></div>
+                                <div class="feed-time">1w ago</div>
+                                <div class="feed-content">Congratulations to the 2025 batch for a record number of placements this year! #placements</div>
+                                <div class="feed-actions">
+                                    <span>Like</span> <span>Comment</span> <span>Share</span>
+                                </div>
+                            </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <script>
+            (function(){
+                const btn = document.getElementById('menuBtn');
+                const sidebar = document.querySelector('.sidebar');
+                const topbar = document.querySelector('.topbar');
+                const main = document.querySelector('.main-area');
+                if(btn && sidebar && topbar && main){
+                    btn.addEventListener('click', function(){
+                        const collapsed = sidebar.classList.toggle('collapsed');
+                        topbar.classList.toggle('shifted', collapsed);
+                        main.classList.toggle('collapsed', collapsed);
+                        btn.setAttribute('aria-expanded', String(!collapsed));
+                    });
+                }
+            })();
+            // populate topbar profile from localStorage
+            (function(){
+                const STORAGE_KEY = 'campus_profile';
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if(!raw) return;
+                try{
+                    const p = JSON.parse(raw);
+                    const nameEl = document.getElementById('topName');
+                    const avatarEl = document.getElementById('topAvatar');
+                    nameEl.textContent = p.name || 'Profile';
+                    if(p.avatarDataUrl){
+                        avatarEl.style.backgroundImage = `url('${p.avatarDataUrl}')`;
+                        avatarEl.textContent = '';
+                        avatarEl.style.backgroundSize = 'cover';
+                    } else {
+                        avatarEl.textContent = (p.name||'').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase() || 'ME';
+                    }
+                }catch(e){ console.error(e) }
+            })();
+            // topbar profile dropdown behavior
+            (function(){
+                const trigger = document.getElementById('profileTrigger');
+                const menu = document.getElementById('profileMenu');
+                const container = document.getElementById('topProfile');
+                if(!trigger || !menu) return;
+                function openMenu(){
+                    container.classList.add('open');
+                    trigger.setAttribute('aria-expanded','true');
+                    menu.setAttribute('aria-hidden','false');
+                }
+                function closeMenu(){
+                    container.classList.remove('open');
+                    trigger.setAttribute('aria-expanded','false');
+                    menu.setAttribute('aria-hidden','true');
+                }
+                trigger.addEventListener('click', function(e){
+                    const isOpen = container.classList.contains('open');
+                    if(isOpen) closeMenu(); else openMenu();
+                });
+                document.addEventListener('click', function(e){
+                    if(!container.contains(e.target)) closeMenu();
+                });
+                document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeMenu(); });
+                menu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+            })();
+            // Post form logic
+            document.getElementById('postForm').onsubmit = function(e) {
+                e.preventDefault();
+                alert('Post submitted! (Demo only)');
+            };
+        </script
+        >
+</body>
+</html>
