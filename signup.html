@@ -11,8 +11,8 @@
 
     <main class="center">
       <form class="card" action="#" method="post" id="signupForm">
-        <h2>Student Sign Up</h2>
-        <p class="muted">Create your student account.</p>
+        <h2 id="signupTitle">Student Sign Up</h2>
+        <p class="muted" id="signupSubtitle">Create your student account.</p>
 
         <label>Full Name
           <input type="text" name="name" placeholder="John Doe" required />
@@ -30,26 +30,52 @@
           <input type="password" name="confirm" placeholder="••••••" required />
         </label>
 
-  <button class="primary" type="submit">Sign Up</button>
+        <button class="primary" type="submit">Sign Up</button>
 
-        <p class="small">Already have an account? <a href="signin.html">Sign In</a></p>
+        <p class="small">Already have an account? <a id="signinLink" href="signin.html">Sign In</a></p>
       </form>
     </main>
     <script>
-      // Save basic signup info to localStorage and navigate to dashboard
+      // Detect role from query string
+      function getRole() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('role') === 'alumni' ? 'alumni' : 'student';
+      }
+      const role = getRole();
+      // Update UI for alumni
+      if(role === 'alumni') {
+        document.getElementById('signupTitle').textContent = 'Alumni Sign Up';
+        document.getElementById('signupSubtitle').textContent = 'Create your alumni account.';
+        document.getElementById('signinLink').setAttribute('href', 'signin.html?role=alumni');
+      }
+
+      // Save signup info to localStorage and navigate to dashboard
       (function(){
         const form = document.getElementById('signupForm');
         form.addEventListener('submit', function(e){
           e.preventDefault();
           const fd = new FormData(form);
-          const profile = {
-            name: fd.get('name') || '',
-            email: fd.get('email') || ''
-          };
-          // persist as JSON string
-          localStorage.setItem('campus_profile', JSON.stringify(profile));
-          // redirect to dashboard
-          window.location.href = 'dashboard.html';
+          const name = fd.get('name') || '';
+          const email = fd.get('email') || '';
+          const password = fd.get('password') || '';
+          const confirm = fd.get('confirm') || '';
+          if(password !== confirm) {
+            alert('Passwords do not match.');
+            return;
+          }
+          const storageKey = role === 'alumni' ? 'alumniUsers' : 'studentUsers';
+          const profileKey = role === 'alumni' ? 'alumni_profile' : 'campus_profile';
+          const users = JSON.parse(localStorage.getItem(storageKey) || '{}');
+          if(users[email]) {
+            alert('Account already exists with this email.');
+            return;
+          }
+          const profile = { name, email, password };
+          users[email] = profile;
+          localStorage.setItem(storageKey, JSON.stringify(users));
+          localStorage.setItem(profileKey, JSON.stringify(profile));
+          // redirect to correct dashboard
+          window.location.href = role === 'alumni' ? 'alumni-dashboard.html' : 'dashboard.html';
         });
       })();
     </script>

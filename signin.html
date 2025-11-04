@@ -10,9 +10,9 @@
     <a class="back" href="welcome.html">← Back to role selection</a>
 
     <main class="center">
-      <form class="card" action="dashboard.html" method="get">
-        <h2>Student Sign In</h2>
-        <p class="muted">Access your student dashboard.</p>
+      <form class="card" id="signinForm" action="#" method="post">
+        <h2 id="signinTitle">Student Sign In</h2>
+        <p class="muted" id="signinSubtitle">Access your student dashboard.</p>
 
         <label>Email Address
           <input type="email" name="email" placeholder="you@example.com" required />
@@ -24,8 +24,40 @@
 
         <button class="primary" type="submit">Sign In</button>
 
-        <p class="small">Don't have an account? <a href="signup.html">Sign Up</a></p>
+        <p class="small">Don't have an account? <a id="signupLink" href="signup.html">Sign Up</a></p>
       </form>
     </main>
+    <script>
+      // Detect role from query string
+      function getRole() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('role') === 'alumni' ? 'alumni' : 'student';
+      }
+      const role = getRole();
+      // Update UI for alumni
+      if(role === 'alumni') {
+        document.getElementById('signinTitle').textContent = 'Alumni Sign In';
+        document.getElementById('signinSubtitle').textContent = 'Access your alumni dashboard.';
+        document.getElementById('signupLink').setAttribute('href', 'signup.html?role=alumni');
+      }
+
+      // Handle sign in
+      document.getElementById('signinForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        const email = this.email.value.trim();
+        const password = this.password.value;
+        const storageKey = role === 'alumni' ? 'alumniUsers' : 'studentUsers';
+        const profileKey = role === 'alumni' ? 'alumni_profile' : 'campus_profile';
+        const users = JSON.parse(localStorage.getItem(storageKey) || '{}');
+        if(users[email] && users[email].password === password) {
+          // Save profile for session
+          localStorage.setItem(profileKey, JSON.stringify(users[email]));
+          // Redirect to correct dashboard
+          window.location.href = role === 'alumni' ? 'alumni-dashboard.html' : 'dashboard.html';
+        } else {
+          alert('Invalid email or password.');
+        }
+      });
+    </script>
   </body>
 </html>

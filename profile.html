@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="shell">
-      <a href="dashboard.html" class="back">← Back to Dashboard</a>
+  <a href="#" id="backToDashboard" class="back">← Back to Dashboard</a>
 
       <main class="profile-card">
         <div class="profile-header">
@@ -70,7 +70,7 @@
 
         <div class="actions">
           <button id="saveBtn" class="primary" style="display:none">Save</button>
-          <a href="dashboard.html" class="secondary">Close</a>
+          <a href="#" id="closeProfile" class="secondary">Close</a>
         </div>
       </main>
     </div>
@@ -78,7 +78,23 @@
     <script>
       // Profile page logic: load/save to localStorage and store files in IndexedDB
       (function(){
-        const STORAGE_KEY = 'campus_profile';
+        // Use alumni_profile if present, otherwise fallback to campus_profile
+        let STORAGE_KEY = 'campus_profile';
+        let isAlumni = false;
+        if (localStorage.getItem('alumni_profile')) {
+          STORAGE_KEY = 'alumni_profile';
+          isAlumni = true;
+        }
+
+        // Set dashboard links contextually
+        function setDashboardLinks() {
+          var dash = isAlumni ? 'alumni-dashboard.html' : 'dashboard.html';
+          var backBtn = document.getElementById('backToDashboard');
+          var closeBtn = document.getElementById('closeProfile');
+          if(backBtn) backBtn.setAttribute('href', dash);
+          if(closeBtn) closeBtn.setAttribute('href', dash);
+        }
+        setDashboardLinks();
         const TOP_NAME = document.getElementById('displayName');
         const TOP_EMAIL = document.getElementById('displayEmail');
         const fullName = document.getElementById('fullName');
