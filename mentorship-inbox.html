@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mentorship Inbox | Campus Connect</title>
+    <link rel="stylesheet" href="alumni-dashboard.css" />
+    <link rel="stylesheet" href="mentorship-inbox.css" />
+  </head>
+  <body>
+    <script>
+      // Ensure alumniName is set in localStorage for demo
+      if (!localStorage.getItem('alumniName')) {
+        var name = prompt('Enter your name to display in profile:');
+        if (name) localStorage.setItem('alumniName', name);
+      }
+    </script>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="sidebar-logo">🎓</div>
+        </div>
+        <nav class="nav">
+          <a href="mentorship-inbox.html" class="nav-item active"><span class="nav-emoji">📥</span><span class="nav-label">Mentorship Inbox</span></a>
+          <a href="my-meetings.html" class="nav-item"><span class="nav-emoji">📅</span><span class="nav-label">My Meetings</span></a>
+          <a href="post-vacancy.html" class="nav-item"><span class="nav-emoji">📝</span><span class="nav-label">Post a Vacancy</span></a>
+          <a href="opportunities.html" class="nav-item"><span class="nav-emoji">🔍</span><span class="nav-label">Opportunities</span></a>
+          <a href="alumni-connect.html" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">Connect with Alumni</span></a>
+          <a href="alumni-hackathons.html" class="nav-item"><span class="nav-emoji">💻</span><span class="nav-label">Hackathons</span></a>
+          <a href="alumni-feeds.html" class="nav-item"><span class="nav-emoji">📰</span><span class="nav-label">Feeds</span></a>
+          <a href="alumni-recent-events.html" class="nav-item"><span class="nav-emoji">🗓️</span><span class="nav-label">Recent Events</span></a>
+          <a href="alumni-feedback.html" class="nav-item"><span class="nav-emoji">💬</span><span class="nav-label">Feedback</span></a>
+        </nav>
+      </aside>
+
+      <header class="topbar">
+        <div class="top-left">
+          <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+          <div class="brand">Campus Connect | Alumni</div>
+        </div>
+        <div class="top-right">
+          <div class="profile" id="topProfile">
+            <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+              <div class="profile-name" id="topName">Profile</div>
+              <div class="avatar" id="topAvatar">AL</div>
+            </div>
+            <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+              <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
+              <a role="menuitem" href="welcome.html" id="menuLogout" onclick="logoutAlumni()">Log out</a>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="main-area">
+        <div class="container mentorship-inbox">
+          <h2>Mentorship Inbox</h2>
+          <div class="inbox-wrapper">
+            <aside class="inbox-list">
+              <div class="inbox-tabs">
+                <button class="tab active">Inbox</button>
+                <button class="tab">Requests <span class="badge">2</span></button>
+              </div>
+              <ul class="messages">
+                <li class="message active">
+                  <div class="avatar">CH</div>
+                  <div class="msg-info">
+                    <div class="msg-name">Biswaranjan</div>
+                    <div class="msg-preview">Of course! It's been a great journey...</div>
+                  </div>
+                  <div class="msg-time">10:01 AM</div>
+                </li>
+                <li class="message">
+                  <img class="avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Alex Johnson" />
+                  <div class="msg-info">
+                    <div class="msg-name">Ashish</div>
+                    <div class="msg-preview">That would be amazing, thank you!</div>
+                  </div>
+                  <div class="msg-time">Yesterday</div>
+                  <span class="msg-badge">2</span>
+                </li>
+                <li class="message">
+                  <img class="avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Samantha Lee" />
+                  <div class="msg-info">
+                    <div class="msg-name">Samantha</div>
+                    <div class="msg-preview">Hi! I was wondering if you had any tips...</div>
+                  </div>
+                  <div class="msg-time">3 days ago</div>
+                  <span class="msg-badge">1</span>
+                </li>
+              </ul>
+            </aside>
+            <section class="chat-area">
+              <div class="chat-header">
+                <div class="chat-user">Chakrabiswaranjan123 <span class="online-dot"></span></div>
+              </div>
+              <div class="chat-messages">
+                <div class="chat-msg other">Hi Jane! I'm really interested in software engineering and saw your profile. I'd love to hear about your experience at Google.</div>
+                <div class="chat-msg self">Of course! It's been a great journey. I'm happy to share any insights. Do you have any specific questions?</div>
+              </div>
+              <div class="chat-input">
+                <input type="text" placeholder="Type a message..." />
+                <button class="send-btn">➤</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="alumni-dashboard.js"></script>
+    <script src="mentorship-inbox.js"></script>
+  </body>
+</html>

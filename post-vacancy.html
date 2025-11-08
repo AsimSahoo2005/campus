@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Post a Vacancy | Campus Connect</title>
+    <link rel="stylesheet" href="alumni-dashboard.css" />
+    <link rel="stylesheet" href="post-vacancy.css" />
+  </head>
+  <body>
+    <script>
+      // Ensure alumniName is set in localStorage for demo
+      if (!localStorage.getItem('alumniName')) {
+        var name = prompt('Enter your name to display in profile:');
+        if (name) localStorage.setItem('alumniName', name);
+      }
+    </script>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="sidebar-logo">🎓</div>
+        </div>
+        <nav class="nav">
+          <a href="mentorship-inbox.html" class="nav-item"><span class="nav-emoji">📥</span><span class="nav-label">Mentorship Inbox</span></a>
+          <a href="my-meetings.html" class="nav-item"><span class="nav-emoji">📅</span><span class="nav-label">My Meetings</span></a>
+          <a href="post-vacancy.html" class="nav-item active"><span class="nav-emoji">📝</span><span class="nav-label">Post a Vacancy</span></a>
+          <a href="opportunities.html" class="nav-item"><span class="nav-emoji">🔍</span><span class="nav-label">Opportunities</span></a>
+          <a href="alumni-connect.html" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">Connect with Alumni</span></a>
+          <a href="alumni-hackathons.html" class="nav-item"><span class="nav-emoji">💻</span><span class="nav-label">Hackathons</span></a>
+          <a href="alumni-feeds.html" class="nav-item"><span class="nav-emoji">📰</span><span class="nav-label">Feeds</span></a>
+          <a href="alumni-recent-events.html" class="nav-item"><span class="nav-emoji">🗓️</span><span class="nav-label">Recent Events</span></a>
+          <a href="alumni-feedback.html" class="nav-item"><span class="nav-emoji">💬</span><span class="nav-label">Feedback</span></a>
+        </nav>
+      </aside>
+
+      <header class="topbar">
+        <div class="top-left">
+          <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+          <div class="brand">Campus Connect | Alumni</div>
+        </div>
+        <div class="top-right">
+          <div class="profile" id="topProfile">
+            <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+              <div class="profile-name" id="topName">Profile</div>
+              <div class="avatar" id="topAvatar">AL</div>
+            </div>
+            <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+              <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
+              <a role="menuitem" href="welcome.html" id="menuLogout" onclick="logoutAlumni()">Log out</a>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="main-area">
+        <div class="container post-vacancy-page">
+          <h2>Post a Vacancy</h2>
+          <form class="vacancy-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="jobTitle">Job Title</label>
+                <input type="text" id="jobTitle" placeholder="e.g., Frontend Developer Intern" required />
+              </div>
+              <div class="form-group">
+                <label for="companyName">Company Name</label>
+                <input type="text" id="companyName" placeholder="e.g., Vercel" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="location">Location</label>
+                <select id="location">
+                  <option>Remote</option>
+                  <option>Onsite</option>
+                  <option>Hybrid</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="jobType">Job Type</label>
+                <select id="jobType">
+                  <option>Internship</option>
+                  <option>Full-time</option>
+                  <option>Part-time</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="tags">Tags (comma-separated)</label>
+              <input type="text" id="tags" placeholder="e.g., React, TypeScript, Next.js" />
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea id="description" rows="3" placeholder="Describe the role and responsibilities..." required></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="stipend">Stipend/Salary (optional)</label>
+                <input type="text" id="stipend" placeholder="e.g., $40/hr" />
+              </div>
+              <div class="form-group">
+                <label for="applicationUrl">Application URL</label>
+                <input type="url" id="applicationUrl" placeholder="https://example.com/apply" required />
+              </div>
+            </div>
+            <button type="submit" class="post-btn">Post Opportunity</button>
+          </form>
+        </div>
+      </main>
+    </div>
+    <script src="alumni-dashboard.js"></script>
+    <script src="post-vacancy.js"></script>
+  </body>
+</html>

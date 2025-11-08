@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alumni Feedback</title>
+  <link rel="stylesheet" href="alumni-feedback.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-logo">🎓</div>
+      </div>
+      <nav class="nav">
+  <a href="mentorship-inbox.html" class="nav-item"><span class="nav-emoji">📥</span><span class="nav-label">Mentorship Inbox</span></a>
+  <a href="my-meetings.html" class="nav-item"><span class="nav-emoji">📅</span><span class="nav-label">My Meetings</span></a>
+  <a href="post-vacancy.html" class="nav-item"><span class="nav-emoji">📝</span><span class="nav-label">Post a Vacancy</span></a>
+  <a href="opportunities.html" class="nav-item"><span class="nav-emoji">🔍</span><span class="nav-label">Opportunities</span></a>
+  <a href="alumni-connect.html" class="nav-item active"><span class="nav-emoji">👥</span><span class="nav-label">Connect with Alumni</span></a>
+  <a href="alumni-hackathons.html" class="nav-item"><span class="nav-emoji">💻</span><span class="nav-label">Hackathons</span></a>
+  <a href="alumni-feeds.html" class="nav-item"><span class="nav-emoji">📰</span><span class="nav-label">Feeds</span></a>
+  <a href="alumni-recent-events.html" class="nav-item"><span class="nav-emoji">🗓️</span><span class="nav-label">Recent Events</span></a>
+  <a href="alumni-feedback.html" class="nav-item"><span class="nav-emoji">💬</span><span class="nav-label">Feedback</span></a>
+      </nav>
+    </aside>
+    <header class="topbar">
+      <div class="top-left">
+        <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+        <div class="brand">Campus Connect | Alumni</div>
+      </div>
+      <div class="top-right">
+        <div class="profile" id="topProfile">
+          <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+            <div class="profile-name" id="topName">Alumni Name</div>
+            <div class="avatar" id="topAvatar">AL</div>
+          </div>
+          <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+            <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
+            <a role="menuitem" href="welcome.html" id="menuLogout">Log out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="main-area">
+  <div class="container" style="max-width:none;width:100%;margin:0;padding:0;">
+      <a href="alumni-dashboard.html" style="display:inline-block;margin-bottom:18px;color:#7b61ff;text-decoration:none;font-weight:500">&larr; Back to Dashboard</a>
+      <h2>Share Your Feedback</h2>
+      <p>We value your opinion! Let us know how we can improve Campus Connect.</p>
+      <form class="feedback-form" id="feedbackForm">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" value="" readonly>
+        <label for="email">Your Email</label>
+        <input type="email" id="email" name="email" value="" readonly>
+        <label for="category">Feedback Category</label>
+        <select id="category" name="category" required>
+          <option value="">Select a category...</option>
+          <option>Bug Report</option>
+          <option>Feature Request</option>
+          <option>General Suggestion</option>
+                            <option>Compliment</option>
+                    </select>
+                    <label for="message">Your Message</label>
+                    <textarea id="message" name="message" placeholder="Tell us about your experience, what you liked, or any suggestions you have..." minlength="10" required style="min-height:220px;width:100%;max-width:100%;"></textarea>
+                    <button type="submit">Submit Feedback</button>
+            </form>
+            <div id="feedbackSuccess" class="feedback-success" style="display:none;">Thank you for your feedback!</div>
+        </div>
+    </main>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const alumniProfile = JSON.parse(localStorage.getItem('alumni_profile')) || { name: 'Alumni Name', avatar: 'AL' };
+      document.getElementById('topName').textContent = alumniProfile.name || 'Alumni Name';
+      document.getElementById('topAvatar').textContent = alumniProfile.avatar || 'AL';
+    });
+    // Sidebar toggle
+  const sidebar = document.querySelector('.sidebar');
+  const mainArea = document.querySelector('.main-area');
+  const topbar = document.querySelector('.topbar');
+
+  document.getElementById('menuBtn').addEventListener('click', function () {
+    sidebar.classList.toggle('collapsed');
+    topbar.classList.toggle('collapsed');
+    mainArea.classList.toggle('collapsed');
+  });
+
+  // Profile dropdown
+  const profile = document.querySelector('.profile');
+  document.getElementById('profileTrigger').addEventListener('click', function () {
+    profile.classList.toggle('show');
+  });
+
+  window.addEventListener('click', function (e) {
+    if (!profile.contains(e.target)) {
+      profile.classList.remove('show');
+    }
+  });
+  // Auto-fill name and email from localStorage
+  document.addEventListener('DOMContentLoaded', function () {
+    const alumniProfile = JSON.parse(localStorage.getItem('alumni_profile')) || { name: 'Alumni Name', avatar: 'AL', email: 'alumni@example.com' };
+
+    // Update topbar
+    document.getElementById('topName').textContent = alumniProfile.name || 'Alumni Name';
+    document.getElementById('topAvatar').textContent = alumniProfile.avatar || 'AL';
+
+    // Prefill feedback form
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+
+    nameInput.value = alumniProfile.name || '';
+    emailInput.value = alumniProfile.email || '';
+  });
+  </script>
+</body>
+</html>

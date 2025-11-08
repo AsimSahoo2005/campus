@@ -1,0 +1,159 @@
+body {
+  background: #f9fafb;
+  color: #111827;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+.main-area {
+  flex: 1;
+  margin-top: 64px;
+  margin-left: 240px;
+  padding: 0;
+  background: #f9fafb;
+}
+.sidebar.collapsed ~ .topbar + .main-area {
+  margin-left: 70px;
+}
+.container.alumni-opportunities {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 0;
+}
+.back-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #7b61ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+.opportunities-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.icon-circle {
+  width: 56px;
+  height: 56px;
+  background: #e0e7ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+}
+.icon {
+  font-size: 32px;
+}
+.opportunities-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.opportunities-header p {
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+.opportunities-filters {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+.filter-input {
+  flex: 2;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+}
+.filter-select {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+}
+.opportunities-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+.job-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(12,15,30,0.07);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+.job-type {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+}
+.job-type.internship { background: #6366f1; }
+.job-type.fulltime { background: #10b981; }
+.job-type.freelance { background: #f59e42; }
+.job-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 32px;
+}
+.job-company {
+  color: #6b7280;
+  font-size: 1rem;
+}
+.job-location {
+  color: #7b61ff;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.job-tags {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0;
+}
+.job-tags span {
+  background: #f3f4f6;
+  color: #392f87;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.job-meta {
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+}
+.job-pay {
+  color: #10b981;
+  font-weight: 600;
+}
+.apply-btn {
+  background: #7b61ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.apply-btn:hover {
+  background: #392f87;
+}

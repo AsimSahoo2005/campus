@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>My Meetings | Campus Connect</title>
+    <link rel="stylesheet" href="alumni-dashboard.css" />
+    <link rel="stylesheet" href="my-meetings.css" />
+  </head>
+  <body>
+    <script>
+      // Ensure alumniName is set in localStorage for demo
+      if (!localStorage.getItem('alumniName')) {
+        var name = prompt('Enter your name to display in profile:');
+        if (name) localStorage.setItem('alumniName', name);
+      }
+    </script>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="sidebar-logo">🎓</div>
+        </div>
+        <nav class="nav">
+          <a href="mentorship-inbox.html" class="nav-item"><span class="nav-emoji">📥</span><span class="nav-label">Mentorship Inbox</span></a>
+          <a href="my-meetings.html" class="nav-item active"><span class="nav-emoji">📅</span><span class="nav-label">My Meetings</span></a>
+          <a href="post-vacancy.html" class="nav-item"><span class="nav-emoji">📝</span><span class="nav-label">Post a Vacancy</span></a>
+          <a href="opportunities.html" class="nav-item"><span class="nav-emoji">🔍</span><span class="nav-label">Opportunities</span></a>
+          <a href="alumni-connect.html" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">Connect with Alumni</span></a>
+          <a href="alumni-hackathons.html" class="nav-item"><span class="nav-emoji">💻</span><span class="nav-label">Hackathons</span></a>
+          <a href="alumni-feeds.html" class="nav-item"><span class="nav-emoji">📰</span><span class="nav-label">Feeds</span></a>
+          <a href="alumni-recent-events.html" class="nav-item"><span class="nav-emoji">🗓️</span><span class="nav-label">Recent Events</span></a>
+          <a href="alumni-feedback.html" class="nav-item"><span class="nav-emoji">💬</span><span class="nav-label">Feedback</span></a>
+        </nav>
+      </aside>
+
+      <header class="topbar">
+        <div class="top-left">
+          <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+          <div class="brand">Campus Connect | Alumni</div>
+        </div>
+        <div class="top-right">
+          <div class="profile" id="topProfile">
+            <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+              <div class="profile-name" id="topName">Profile</div>
+              <div class="avatar" id="topAvatar">AL</div>
+            </div>
+            <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+              <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
+              <a role="menuitem" href="welcome.html" id="menuLogout" onclick="logoutAlumni()">Log out</a>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="main-area">
+        <div class="container meetings-page">
+          <h2>My Meetings</h2>
+          <div class="meetings-controls">
+            <button class="hide-completed">Hide Completed</button>
+          </div>
+          <div class="meetings-list">
+            <div class="meeting-card">
+              <div class="meeting-info">
+                <div class="meeting-user">
+                  <span class="avatar">AJ</span>
+                  <span class="name">Alex Johnson</span>
+                </div>
+                <div class="meeting-details">
+                  <span class="date">Monday, November 10</span>
+                  <span class="time">10:00 AM</span>
+                  <span class="duration">30 minutes</span>
+                </div>
+              </div>
+              <div class="meeting-actions">
+                <button class="start">Start Meeting</button>
+                <button class="cancel">Cancel</button>
+              </div>
+            </div>
+            <div class="meeting-card">
+              <div class="meeting-info">
+                <div class="meeting-user">
+                  <span class="avatar">SL</span>
+                  <span class="name">Samantha Lee</span>
+                </div>
+                <div class="meeting-details">
+                  <span class="date">Thursday, November 13</span>
+                  <span class="time">02:00 PM</span>
+                  <span class="duration">60 minutes</span>
+                </div>
+              </div>
+              <div class="meeting-actions">
+                <button class="start">Start Meeting</button>
+                <button class="cancel">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="alumni-dashboard.js"></script>
+    <script src="my-meetings.js"></script>
+  </body>
+</html>

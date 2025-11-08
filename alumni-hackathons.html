@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Alumni Hackathons | Campus Connect</title>
+    <link rel="stylesheet" href="alumni-dashboard.css" />
+    <link rel="stylesheet" href="alumni-hackathons.css" />
+  </head>
+  <body>
+    <script>
+      if (!localStorage.getItem('alumniName')) {
+        var name = prompt('Enter your name to display in profile:');
+        if (name) localStorage.setItem('alumniName', name);
+      }
+    </script>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="sidebar-logo">🎓</div>
+        </div>
+        <nav class="nav">
+          <a href="mentorship-inbox.html" class="nav-item"><span class="nav-emoji">📥</span><span class="nav-label">Mentorship Inbox</span></a>
+          <a href="my-meetings.html" class="nav-item"><span class="nav-emoji">📅</span><span class="nav-label">My Meetings</span></a>
+          <a href="post-vacancy.html" class="nav-item"><span class="nav-emoji">📝</span><span class="nav-label">Post a Vacancy</span></a>
+          <a href="opportunities.html" class="nav-item"><span class="nav-emoji">🔍</span><span class="nav-label">Opportunities</span></a>
+          <a href="alumni-connect.html" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">Connect with Alumni</span></a>
+          <a href="alumni-hackathons.html" class="nav-item active"><span class="nav-emoji">💻</span><span class="nav-label">Hackathons</span></a>
+          <a href="alumni-feeds.html" class="nav-item"><span class="nav-emoji">📰</span><span class="nav-label">Feeds</span></a>
+          <a href="alumni-recent-events.html" class="nav-item"><span class="nav-emoji">🗓️</span><span class="nav-label">Recent Events</span></a>
+          <a href="alumni-feedback.html" class="nav-item"><span class="nav-emoji">💬</span><span class="nav-label">Feedback</span></a>
+        </nav>
+      </aside>
+      <header class="topbar">
+        <div class="top-left">
+          <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+          <div class="brand">Campus Connect | Alumni</div>
+        </div>
+        <div class="top-right">
+          <div class="profile" id="topProfile">
+            <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+              <div class="profile-name" id="topName">Profile</div>
+              <div class="avatar" id="topAvatar">AL</div>
+            </div>
+            <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+              <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
+              <a role="menuitem" href="welcome.html" id="menuLogout" onclick="logoutAlumni()">Log out</a>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="main-area">
+        <div class="container alumni-hackathons">
+          <div class="hackathons-header">
+            <div class="icon-circle"><span class="icon">💻</span></div>
+            <h1>Alumni Hackathons</h1>
+            <p>Post and discover hackathons organized by alumni for students and professionals.</p>
+            <button class="post-hackathon-btn">+ Post New Hackathon</button>
+          </div>
+          <div class="hackathons-list">
+            <!-- Example alumni hackathon cards -->
+            <div class="hackathon-card">
+              <div class="hack-type online">Online</div>
+              <div class="hack-title">Alumni AI Innovation Sprint</div>
+              <div class="hack-org">Campus Connect Alumni</div>
+              <div class="hack-date">Jan 10-12, 2026</div>
+              <div class="hack-location">Virtual</div>
+              <div class="hack-tags">
+                <span>AI</span><span>ML</span><span>Innovation</span>
+              </div>
+              <div class="hack-meta">
+                <span>Apply by: <span class="hack-deadline">Jan 5, 2026</span></span>
+              </div>
+              <a href="#" class="details-btn">Details</a>
+              <a href="#" class="apply-btn">Apply</a>
+            </div>
+            <div class="hackathon-card">
+              <div class="hack-type offline">Offline</div>
+              <div class="hack-title">Alumni Blockchain Challenge</div>
+              <div class="hack-org">Campus Connect Alumni</div>
+              <div class="hack-date">Feb 15-17, 2026</div>
+              <div class="hack-location">Campus Auditorium</div>
+              <div class="hack-tags">
+                <span>Blockchain</span><span>Smart Contracts</span>
+              </div>
+              <div class="hack-meta">
+                <span>Apply by: <span class="hack-deadline">Feb 10, 2026</span></span>
+              </div>
+              <a href="#" class="details-btn">Details</a>
+              <a href="#" class="apply-btn">Apply</a>
+            </div>
+            <div class="hackathon-card">
+              <div class="hack-type hybrid">Hybrid</div>
+              <div class="hack-title">Alumni Sustainability Hack</div>
+              <div class="hack-org">Campus Connect Alumni</div>
+              <div class="hack-date">Mar 5-7, 2026</div>
+              <div class="hack-location">Campus & Online</div>
+              <div class="hack-tags">
+                <span>Sustainability</span><span>Green Tech</span>
+              </div>
+              <div class="hack-meta">
+                <span>Apply by: <span class="hack-deadline">Feb 28, 2026</span></span>
+              </div>
+              <a href="#" class="details-btn">Details</a>
+              <a href="#" class="apply-btn">Apply</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="alumni-dashboard.js"></script>
+    <script>
+      // Sidebar toggle and profile dropdown logic
+      document.addEventListener('DOMContentLoaded', function() {
+        const topName = document.getElementById('topName');
+        const topAvatar = document.getElementById('topAvatar');
+        const storedName = localStorage.getItem('alumniName');
+        if (storedName) {
+          topName.textContent = storedName;
+          topAvatar.textContent = storedName.split(' ').map(w => w[0]).join('').toUpperCase();
+        }
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.querySelector('.sidebar');
+        const mainArea = document.querySelector('.main-area');
+        const topbar = document.querySelector('.topbar');
+        menuBtn.addEventListener('click', function() {
+          sidebar.classList.toggle('collapsed');
+          mainArea.classList.toggle('collapsed');
+          topbar.classList.toggle('shifted');
+          menuBtn.setAttribute('aria-expanded', sidebar.classList.contains('collapsed') ? 'false' : 'true');
+        });
+        const profileTrigger = document.getElementById('profileTrigger');
+        const profileMenu = document.getElementById('profileMenu');
+        const profile = document.getElementById('topProfile');
+        profileTrigger.addEventListener('click', function(e) {
+          profile.classList.toggle('open');
+          profileMenu.setAttribute('aria-hidden', !profile.classList.contains('open'));
+          profileTrigger.setAttribute('aria-expanded', profile.classList.contains('open'));
+          e.stopPropagation();
+        });
+        document.addEventListener('click', function(e) {
+          if (!profile.contains(e.target)) {
+            profile.classList.remove('open');
+            profileMenu.setAttribute('aria-hidden', 'true');
+            profileTrigger.setAttribute('aria-expanded', 'false');
+          }
+        });
+        // Post hackathon button
+        document.querySelector('.post-hackathon-btn').addEventListener('click', function() {
+          alert('Feature: Alumni can post new hackathons for students to see!');
+        });
+      });
+    </script>
+  </body>
+</html>

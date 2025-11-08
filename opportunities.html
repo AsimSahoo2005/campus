@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Alumni Opportunities | Campus Connect</title>
+    <link rel="stylesheet" href="alumni-dashboard.css" />
+    <link rel="stylesheet" href="opportunities.css" />
+  </head>
+  <body>
+    <script>
+      if (!localStorage.getItem('alumniName')) {
+        var name = prompt('Enter your name to display in profile:');
+        if (name) localStorage.setItem('alumniName', name);
+      }
+    </script>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <div class="sidebar-logo">🎓</div>
+        </div>
+        <nav class="nav">
+          <a href="alumni-dashboard.html" class="nav-item"><span class="nav-emoji">🏠</span><span class="nav-label">Dashboard</span></a>
+          <a href="mentorship-inbox.html" class="nav-item"><span class="nav-emoji">📥</span><span class="nav-label">Mentorship Inbox</span></a>
+          <a href="my-meetings.html" class="nav-item"><span class="nav-emoji">📅</span><span class="nav-label">My Meetings</span></a>
+          <a href="post-vacancy.html" class="nav-item"><span class="nav-emoji">📝</span><span class="nav-label">Post a Vacancy</span></a>
+          <a href="opportunities.html" class="nav-item active"><span class="nav-emoji">💼</span><span class="nav-label">Opportunities</span></a>
+          <a href="alumni-connect.html" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">Connect with Alumni</span></a>
+          <a href="alumni-hackathons.html" class="nav-item"><span class="nav-emoji">🏆</span><span class="nav-label">Hackathons</span></a>
+          <a href="alumni-feeds.html" class="nav-item"><span class="nav-emoji">📰</span><span class="nav-label">Feeds</span></a>
+          <a href="alumni-recent-events.html" class="nav-item"><span class="nav-emoji">🗓️</span><span class="nav-label">Recent Events</span></a>
+          <a href="alumni-feedback.html" class="nav-item"><span class="nav-emoji">💬</span><span class="nav-label">Feedback</span></a>
+        </nav>
+      </aside>
+      <header class="topbar">
+        <div class="top-left">
+          <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+          <div class="brand">Campus Connect | Alumni</div>
+        </div>
+        <div class="top-right">
+          <div class="profile" id="topProfile">
+            <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+              <div class="profile-name" id="topName">Profile</div>
+              <div class="avatar" id="topAvatar">AL</div>
+            </div>
+            <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+              <a role="menuitem" href="profile.html" id="menuProfile">View Profile</a>
+              <a role="menuitem" href="welcome.html" id="menuLogout" onclick="logoutAlumni()">Log out</a>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="main-area">
+        <div class="container alumni-opportunities">
+          <a href="alumni-dashboard.html" class="back-link">&larr; Back to Dashboard</a>
+          <div class="opportunities-header">
+            <div class="icon-circle"><span class="icon">💼</span></div>
+            <h1>Alumni Opportunities</h1>
+            <p>Explore job vacancies and career opportunities posted by fellow alumni.</p>
+          </div>
+          <form class="opportunities-filters">
+            <input type="text" class="filter-input" placeholder="e.g., 'React Developer' or 'Vercel'" />
+            <select class="filter-select">
+              <option>All</option>
+              <option>Remote</option>
+              <option>On-site</option>
+              <option>Hybrid</option>
+            </select>
+            <select class="filter-select">
+              <option>All</option>
+              <option>Internship</option>
+              <option>Full-time</option>
+              <option>Freelance</option>
+            </select>
+          </form>
+          <div class="opportunities-list">
+            <!-- Example job cards -->
+            <div class="job-card">
+              <div class="job-type internship">Internship</div>
+              <div class="job-title">Frontend Developer Intern</div>
+              <div class="job-company">Vercel</div>
+              <div class="job-location">Remote</div>
+              <div class="job-tags">
+                <span>React</span><span>Next.js</span><span>TypeScript</span>
+              </div>
+              <div class="job-meta">
+                <span>2 days ago</span> | <span class="job-pay">$40/hr</span>
+              </div>
+              <a href="#" class="apply-btn">Apply</a>
+            </div>
+            <div class="job-card">
+              <div class="job-type internship">Internship</div>
+              <div class="job-title">Backend Engineering Intern</div>
+              <div class="job-company">Supabase</div>
+              <div class="job-location">On-site</div>
+              <div class="job-tags">
+                <span>PostgreSQL</span><span>Node.js</span><span>Docker</span>
+              </div>
+              <div class="job-meta">
+                <span>1 week ago</span> | <span class="job-pay">$35/hr</span>
+              </div>
+              <a href="#" class="apply-btn">Apply</a>
+            </div>
+            <div class="job-card">
+              <div class="job-type fulltime">Full-time</div>
+              <div class="job-title">Full-stack Engineer</div>
+              <div class="job-company">Linear</div>
+              <div class="job-location">Hybrid</div>
+              <div class="job-tags">
+                <span>React</span><span>GraphQL</span><span>Node.js</span>
+              </div>
+              <div class="job-meta">
+                <span>10 days ago</span>
+              </div>
+              <a href="#" class="apply-btn">Apply</a>
+            </div>
+            <div class="job-card">
+              <div class="job-type internship">Internship</div>
+              <div class="job-title">DevOps Intern</div>
+              <div class="job-company">Cloudflare</div>
+              <div class="job-location">On-site</div>
+              <div class="job-tags">
+                <span>Cloud</span><span>DevOps</span>
+              </div>
+              <div class="job-meta">
+                <span>1 week ago</span>
+              </div>
+              <a href="#" class="apply-btn">Apply</a>
+            </div>
+            <div class="job-card">
+              <div class="job-type freelance">Freelance</div>
+              <div class="job-title">Mobile App Dev (React Native)</div>
+              <div class="job-company">Coinbase</div>
+              <div class="job-location">Remote</div>
+              <div class="job-tags">
+                <span>React Native</span><span>Mobile</span>
+              </div>
+              <div class="job-meta">
+                <span>2 days ago</span>
+              </div>
+              <a href="#" class="apply-btn">Apply</a>
+            </div>
+            <div class="job-card">
+              <div class="job-type internship">Internship</div>
+              <div class="job-title">Cybersecurity Analyst Intern</div>
+              <div class="job-company">CrowdStrike</div>
+              <div class="job-location">On-site</div>
+              <div class="job-tags">
+                <span>Security</span><span>Python</span>
+              </div>
+              <div class="job-meta">
+                <span>10 days ago</span>
+              </div>
+              <a href="#" class="apply-btn">Apply</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="alumni-dashboard.js"></script>
+    <script>
+      // Sidebar toggle and profile dropdown logic
+      document.addEventListener('DOMContentLoaded', function() {
+        const topName = document.getElementById('topName');
+        const topAvatar = document.getElementById('topAvatar');
+        const storedName = localStorage.getItem('alumniName');
+        if (storedName) {
+          topName.textContent = storedName;
+          topAvatar.textContent = storedName.split(' ').map(w => w[0]).join('').toUpperCase();
+        }
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.querySelector('.sidebar');
+        const mainArea = document.querySelector('.main-area');
+        const topbar = document.querySelector('.topbar');
+        menuBtn.addEventListener('click', function() {
+          sidebar.classList.toggle('collapsed');
+          mainArea.classList.toggle('collapsed');
+          topbar.classList.toggle('shifted');
+          menuBtn.setAttribute('aria-expanded', sidebar.classList.contains('collapsed') ? 'false' : 'true');
+        });
+        const profileTrigger = document.getElementById('profileTrigger');
+        const profileMenu = document.getElementById('profileMenu');
+        const profile = document.getElementById('topProfile');
+        profileTrigger.addEventListener('click', function(e) {
+          profile.classList.toggle('open');
+          profileMenu.setAttribute('aria-hidden', !profile.classList.contains('open'));
+          profileTrigger.setAttribute('aria-expanded', profile.classList.contains('open'));
+          e.stopPropagation();
+        });
+        document.addEventListener('click', function(e) {
+          if (!profile.contains(e.target)) {
+            profile.classList.remove('open');
+            profileMenu.setAttribute('aria-hidden', 'true');
+            profileTrigger.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
