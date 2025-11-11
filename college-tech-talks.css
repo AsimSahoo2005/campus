@@ -1,0 +1,28 @@
+body { background: #f4f6fb; }
+.tech-talks-container { max-width: 1200px; margin: 0 auto; padding: 48px 0; }
+.back-link { color: #222; text-decoration: none; font-weight: 500; margin-bottom: 32px; display: inline-block; }
+.tech-talks-header { text-align: center; margin-bottom: 32px; position: relative; }
+.tech-talks-icon { background: #e6e6ff; color: #6c47e3; font-size: 2.8em; border-radius: 50%; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; }
+.tech-talks-header h1 { font-size: 2.6em; font-weight: 700; margin: 0 0 12px; }
+.tech-talks-header p { color: #222; font-size: 1.1em; margin-bottom: 0; }
+.post-talk-btn { position: absolute; right: 0; top: 0; background: #6c47e3; color: #fff; border: none; border-radius: 8px; padding: 10px 22px; font-weight: 600; font-size: 1em; cursor: pointer; box-shadow: 0 2px 8px rgba(44,46,131,0.08); }
+.tech-talks-list { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; margin-top: 32px; }
+.talk-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(44,46,131,0.08); overflow: hidden; width: 340px; display: flex; flex-direction: column; }
+.talk-info { padding: 18px 18px 24px; }
+.talk-title { font-size: 1.2em; font-weight: 700; margin-bottom: 8px; }
+.talk-speaker { color: #222; font-weight: 600; margin-bottom: 8px; }
+.talk-role { color: #6c47e3; font-weight: 400; margin-left: 8px; }
+.talk-details { color: #666; font-size: 0.98em; margin-bottom: 8px; }
+.talk-tags { margin-bottom: 12px; }
+.talk-tags span { background: #e6e6ff; color: #6c47e3; border-radius: 6px; padding: 4px 10px; font-size: 0.95em; margin-right: 6px; font-weight: 500; }
+.talk-actions { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.seats { color: #2c2e83; font-weight: 600; font-size: 0.98em; }
+.details-btn { background: #eee; color: #222; border: none; border-radius: 8px; padding: 6px 14px; font-weight: 500; font-size: 1em; cursor: pointer; }
+.cancel-btn { background: #f76c6c; color: #fff; border: none; border-radius: 8px; padding: 6px 14px; font-weight: 500; font-size: 1em; cursor: pointer; }
+.talk-popup { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(44,46,131,0.12); align-items: center; justify-content: center; z-index: 999; }
+.popup-content { background: #fff; border-radius: 16px; box-shadow: 0 2px 24px rgba(44,46,131,0.16); padding: 32px 28px; width: 340px; text-align: center; }
+.popup-content h2 { font-size: 1.3em; font-weight: 700; margin-bottom: 18px; }
+.popup-content input, .popup-content textarea { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1em; }
+.popup-content textarea { resize: vertical; min-height: 60px; }
+.popup-content button[type="submit"] { background: #6c47e3; color: #fff; border: none; border-radius: 8px; padding: 10px 0; font-weight: 600; font-size: 1em; cursor: pointer; width: 100%; margin-top: 10px; }
+.popup-content button[type="button"] { background: #eee; color: #222; border: none; border-radius: 8px; padding: 10px 0; font-weight: 500; font-size: 1em; cursor: pointer; width: 100%; margin-top: 10px; }

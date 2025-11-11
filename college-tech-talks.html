@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Tech Talks | College Admin</title>
+  <link rel="stylesheet" href="college-tech-talks.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-logo">🎓</div>
+      </div>
+      <nav class="nav">
+  <a href="college-database.html" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">User Database</span></a>
+  <a href="college-verification.html" class="nav-item"><span class="nav-emoji">✅</span><span class="nav-label">User Verification</span></a>
+  <a href="college-tech-talks.html" class="nav-item active"><span class="nav-emoji">🔊</span><span class="nav-label">Manage Tech Talks</span></a>
+  <a href="college-events.html" class="nav-item"><span class="nav-emoji">🖼️</span><span class="nav-label">Past Events Gallery</span></a>
+  <a href="college-feed.html" class="nav-item"><span class="nav-emoji">🌐</span><span class="nav-label">Community Feed</span></a>
+  <a href="college-feedback.html" class="nav-item"><span class="nav-emoji">💬</span><span class="nav-label">View Feedback</span></a>
+      </nav>
+    </aside>
+    <header class="topbar">
+      <div class="top-left">
+        <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+        <div class="brand">Campus Connect | College</div>
+      </div>
+      <div class="top-right">
+        <div class="profile" id="topProfile">
+          <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+            <div class="profile-name" id="topName">Silicon University</div>
+            <div class="avatar" id="topAvatar">SU</div>
+          </div>
+          <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+            <a role="menuitem" href="welcome.html" id="menuLogout">Log out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="main-area">
+      <div class="container tech-talks-container">
+        <a href="college.html" class="back-link">← Back to Dashboard</a>
+        <div class="tech-talks-header">
+          <div class="tech-talks-icon">🔊</div>
+          <h1>Manage Tech Talks</h1>
+          <p>View, edit, and post new tech talks and seminars for your community.</p>
+          <button class="post-talk-btn" onclick="openTalkPopup()">+ Post New Talk</button>
+        </div>
+        <div class="tech-talks-list">
+          <!-- Example tech talk cards -->
+          <div class="talk-card">
+            <div class="talk-info">
+              <div class="talk-title">The Future of Generative AI</div>
+              <div class="talk-speaker">Elon Musk <span class="talk-role">AI/ML Engineer at NVIDIA</span></div>
+              <div class="talk-details">
+                <span>🗓️ November 12, 2024</span> | <span>🕓 4:00 PM - 5:00 PM</span> | <span>Virtual (Zoom)</span>
+              </div>
+              <div class="talk-tags"><span>AI/ML</span><span>Deep Learning</span><span>Career Growth</span></div>
+              <div class="talk-actions">
+                <span class="seats">54 / 200 seats left</span>
+                <button class="details-btn">Details</button>
+                <button class="cancel-btn">Cancel Event</button>
+              </div>
+            </div>
+          </div>
+          <div class="talk-card">
+            <div class="talk-info">
+              <div class="talk-title">Designing for a Billion Users</div>
+              <div class="talk-speaker">Emily White <span class="talk-role">UX Researcher at Airbnb</span></div>
+              <div class="talk-details">
+                <span>🗓️ November 18, 2024</span> | <span>🕓 1:00 PM - 2:30 PM</span> | <span>Auditorium Hall A</span>
+              </div>
+              <div class="talk-tags"><span>UX/UI</span><span>Product Design</span><span>Scalability</span></div>
+              <div class="talk-actions">
+                <span class="seats">12 / 150 seats left</span>
+                <button class="details-btn">Details</button>
+                <button class="cancel-btn">Cancel Event</button>
+              </div>
+            </div>
+          </div>
+          <div class="talk-card">
+            <div class="talk-info">
+              <div class="talk-title">From College to Big Tech</div>
+              <div class="talk-speaker">Mark Zuckerburg <span class="talk-role">Senior Software Engineer at Google</span></div>
+              <div class="talk-details">
+                <span>🗓️ November 25, 2024</span> | <span>🕓 6:00 PM - 7:00 PM</span> | <span>Main Seminar Hall</span>
+              </div>
+              <div class="talk-tags"><span>Career Advice</span><span>Interview Prep</span><span>Software Engineering</span></div>
+              <div class="talk-actions">
+                <span class="seats">0 / 300 seats left</span>
+                <button class="details-btn">Details</button>
+                <button class="cancel-btn">Cancel Event</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Popup for posting new talk -->
+        <div class="talk-popup" id="talkPopup">
+          <div class="popup-content">
+            <h2>Post New Talk</h2>
+            <form id="postTalkForm">
+              <input type="text" placeholder="Talk Title" required>
+              <input type="text" placeholder="Speaker Name" required>
+              <input type="text" placeholder="Speaker Role" required>
+              <input type="date" required>
+              <input type="time" required>
+              <input type="text" placeholder="Venue" required>
+              <textarea placeholder="Talk Description" required></textarea>
+              <input type="number" placeholder="Total Seats" required>
+              <button type="submit">Post Talk</button>
+              <button type="button" onclick="closeTalkPopup()">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>
+    function openTalkPopup() {
+      document.getElementById('talkPopup').style.display = 'flex';
+    }
+    function closeTalkPopup() {
+      document.getElementById('talkPopup').style.display = 'none';
+    }
+    document.getElementById('postTalkForm')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      closeTalkPopup();
+      alert('Tech talk posted!');
+    });
+    // Sidebar toggle and profile dropdown
+    (function(){
+      const btn = document.getElementById('menuBtn');
+      const sidebar = document.querySelector('.sidebar');
+      const topbar = document.querySelector('.topbar');
+      const main = document.querySelector('.main-area');
+      btn.addEventListener('click', function(){
+        const collapsed = sidebar.classList.toggle('collapsed');
+        topbar.classList.toggle('shifted', collapsed);
+        main.classList.toggle('collapsed', collapsed);
+        btn.setAttribute('aria-expanded', String(!collapsed));
+      });
+    })();
+    (function(){
+      const trigger = document.getElementById('profileTrigger');
+      const menu = document.getElementById('profileMenu');
+      const container = document.getElementById('topProfile');
+      if(!trigger || !menu) return;
+      function openMenu(){
+        container.classList.add('open');
+        trigger.setAttribute('aria-expanded','true');
+        menu.setAttribute('aria-hidden','false');
+      }
+      function closeMenu(){
+        container.classList.remove('open');
+        trigger.setAttribute('aria-expanded','false');
+        menu.setAttribute('aria-hidden','true');
+      }
+      trigger.addEventListener('click', function(e){
+        const isOpen = container.classList.contains('open');
+        if(isOpen) closeMenu(); else openMenu();
+      });
+      document.addEventListener('click', function(e){
+        if(!container.contains(e.target)) closeMenu();
+      });
+      document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeMenu(); });
+      menu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+    })();
+    // Activate cancel buttons
+    document.querySelectorAll('.cancel-btn').forEach(btn => {
+      btn.addEventListener('click', function(){
+        if(confirm('Are you sure you want to cancel this event?')) {
+          btn.closest('.talk-card').remove();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

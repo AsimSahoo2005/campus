@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Feed | College Admin</title>
+  <link rel="stylesheet" href="college-feed.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-logo">🎓</div>
+      </div>
+      <nav class="nav">
+        <a href="college-database.html" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">User Database</span></a>
+        <a href="college-verification.html" class="nav-item"><span class="nav-emoji">✅</span><span class="nav-label">User Verification</span></a>
+        <a href="college-tech-talks.html" class="nav-item"><span class="nav-emoji">🔊</span><span class="nav-label">Manage Tech Talks</span></a>
+        <a href="college-events.html" class="nav-item"><span class="nav-emoji">🖼️</span><span class="nav-label">Past Events Gallery</span></a>
+        <a href="college-feed.html" class="nav-item active"><span class="nav-emoji">🌐</span><span class="nav-label">Community Feed</span></a>
+        <a href="college-feedback.html" class="nav-item"><span class="nav-emoji">💬</span><span class="nav-label">View Feedback</span></a>
+      </nav>
+    </aside>
+    <header class="topbar">
+      <div class="top-left">
+        <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+        <div class="brand">Campus Connect | College</div>
+      </div>
+      <div class="top-right">
+        <div class="profile" id="topProfile">
+          <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+            <div class="profile-name" id="topName">Silicon University</div>
+            <div class="avatar" id="topAvatar">SU</div>
+
+          </div>
+          <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+            <a role="menuitem" href="welcome.html" id="menuLogout">Log out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="main-area">
+      <div class="container feed-container">
+        <a href="college.html" class="back-link">← Back to Dashboard</a>
+        <div class="feed-main">
+          <div class="feed-left">
+            <div class="profile-card">
+              <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" class="profile-img" alt="Profile">
+              <div class="profile-info">
+                <h3>Silicon University Admin</h3>
+                <p>Silicon University, Bhubaneswar</p>
+              </div>
+              
+            </div>
+          </div>
+          <div class="feed-right">
+            <div class="feed-post-box">
+              <input type="text" class="post-input" id="postText" placeholder="What's on your mind, Silicon?">
+              <div class="post-options">
+                <label class="photo-btn">
+                  📷 Photo
+                  <input type="file" id="photoInput" accept="image/*" style="display:none">
+                </label>
+                <label class="video-btn">
+                  📹 Video
+                  <input type="file" id="videoInput" accept="video/*" style="display:none">
+                </label>
+                <button class="post-btn" id="postBtn">Post ➤</button>
+              </div>
+            </div>
+            <div class="feed-list">
+              <!-- Example post -->
+              <div class="feed-post">
+                <div class="post-header">
+                  <img src="https://randomuser.me/api/portraits/men/32.jpg" class="post-avatar" alt="">
+                  <div class="post-user">
+                    <div class="post-name">Ashis Solanki</div>
+                    <div class="post-role">Senior Software Engineer at Google</div>
+                    <div class="post-time">2h ago</div>
+                  </div>
+                </div>
+                <div class="post-content">Excited to share some insights from my journey into large-scale systems! One of the biggest lessons I've learned is the importance of observability. Don't just build, build to be monitored. It saves countless hours during debugging. What are your favorite monitoring tools? #softwareengineering #alumnitalks</div>
+                <div class="post-actions">
+                  <span class="like-count">128 Likes</span>
+                  <button class="like-btn">Like</button>
+                  <button class="comment-btn">Comment</button>
+                  <button class="share-btn">Share</button>
+                </div>
+                <div class="comments-section" style="display:none">
+                  <input type="text" class="comment-input" placeholder="Add a comment...">
+                  <button class="add-comment-btn">Add</button>
+                  <div class="comments-list"></div>
+                </div>
+              </div>
+              <div class="feed-post">
+                <div class="post-header">
+                  <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" class="post-avatar" alt="">
+                  <div class="post-user">
+                    <div class="post-name">Campus Connect @ Silicon</div>
+                    <div class="post-role">Official College Page</div>
+                    <div class="post-time">1d ago</div>
+                  </div>
+                </div>
+                <div class="post-content">Announcing our annual 'Innovate & Inspire' startup pitch competition! Do you have a groundbreaking idea? Form a team and get ready to pitch to leading venture capitalists. The deadline for applications is November 1st. More details on our website. #startup #innovation #entrepreneurship</div>
+                <div class="post-actions">
+                  <button class="like-btn">Like</button>
+                  <button class="comment-btn">Comment</button>
+                  <button class="share-btn">Share</button>
+                </div>
+                <div class="comments-section" style="display:none">
+                  <input type="text" class="comment-input" placeholder="Add a comment...">
+                  <button class="add-comment-btn">Add</button>
+                  <div class="comments-list"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>
+    (function(){
+      const btn = document.getElementById('menuBtn');
+      const sidebar = document.querySelector('.sidebar');
+      const topbar = document.querySelector('.topbar');
+      const main = document.querySelector('.main-area');
+      btn.addEventListener('click', function(){
+        const collapsed = sidebar.classList.toggle('collapsed');
+        topbar.classList.toggle('shifted', collapsed);
+        main.classList.toggle('collapsed', collapsed);
+        btn.setAttribute('aria-expanded', String(!collapsed));
+      });
+    })();
+    (function(){
+      const trigger = document.getElementById('profileTrigger');
+      const menu = document.getElementById('profileMenu');
+      const container = document.getElementById('topProfile');
+      if(!trigger || !menu) return;
+      function openMenu(){
+        container.classList.add('open');
+        trigger.setAttribute('aria-expanded','true');
+        menu.setAttribute('aria-hidden','false');
+      }
+      function closeMenu(){
+        container.classList.remove('open');
+        trigger.setAttribute('aria-expanded','false');
+        menu.setAttribute('aria-hidden','true');
+      }
+      trigger.addEventListener('click', function(e){
+        const isOpen = container.classList.contains('open');
+        if(isOpen) closeMenu(); else openMenu();
+      });
+      document.addEventListener('click', function(e){
+        if(!container.contains(e.target)) closeMenu();
+      });
+      document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeMenu(); });
+      menu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+    })();
+    // Activate photo/video upload and post
+    document.querySelector('.photo-btn input')?.addEventListener('change', function(e){
+      const file = e.target.files[0];
+      if(file) alert('Photo selected: ' + file.name);
+    });
+    document.querySelector('.video-btn input')?.addEventListener('change', function(e){
+      const file = e.target.files[0];
+      if(file) alert('Video selected: ' + file.name);
+    });
+    document.getElementById('postBtn')?.addEventListener('click', function(){
+      const text = document.getElementById('postText').value;
+      alert('Post submitted: ' + text);
+    });
+    // Activate like, comment, share
+    document.querySelectorAll('.like-btn').forEach(btn => {
+      btn.addEventListener('click', function(){
+        const countSpan = btn.parentElement.querySelector('.like-count');
+        if(countSpan) {
+          let count = parseInt(countSpan.textContent) || 0;
+          countSpan.textContent = (count + 1) + ' Likes';
+        }
+      });
+    });
+    document.querySelectorAll('.comment-btn').forEach(btn => {
+      btn.addEventListener('click', function(){
+        const section = btn.parentElement.nextElementSibling;
+        section.style.display = section.style.display === 'none' ? '' : 'none';
+      });
+    });
+    document.querySelectorAll('.add-comment-btn').forEach(btn => {
+      btn.addEventListener('click', function(){
+        const input = btn.previousElementSibling;
+        const list = btn.nextElementSibling;
+        if(input.value.trim()) {
+          const div = document.createElement('div');
+          div.textContent = input.value;
+          list.appendChild(div);
+          input.value = '';
+        }
+      });
+    });
+    document.querySelectorAll('.share-btn').forEach(btn => {
+      btn.addEventListener('click', function(){
+        alert('Post shared!');
+      });
+    });
+  </script>
+</body>
+</html>

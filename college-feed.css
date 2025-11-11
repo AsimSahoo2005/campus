@@ -1,0 +1,29 @@
+body { background: #f4f6fb; }
+.feed-container { max-width: 1200px; margin: 0 auto; padding: 48px 0; }
+.back-link { color: #222; text-decoration: none; font-weight: 500; margin-bottom: 32px; display: inline-block; }
+.feed-main { display: flex; gap: 32px; }
+.feed-left { width: 320px; }
+.feed-right { flex: 1; }
+.profile-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(44,46,131,0.08); padding: 32px 0 18px; text-align: center; margin-bottom: 32px; }
+.profile-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; }
+.profile-info h3 { font-size: 1.3em; font-weight: 700; margin-bottom: 6px; }
+.profile-info p { color: #666; font-size: 1em; margin-bottom: 12px; }
+.profile-links { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.profile-links a { color: #222; text-decoration: none; font-weight: 500; padding: 8px 0; border-radius: 6px; transition: background 0.2s; }
+.profile-links a:hover { background: #f4f6fb; }
+.feed-post-box { background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(44,46,131,0.08); padding: 18px 24px; margin-bottom: 32px; }
+.post-input { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1em; margin-bottom: 12px; }
+.post-options { display: flex; gap: 12px; }
+.photo-btn, .video-btn, .post-btn { background: #6c47e3; color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-weight: 600; font-size: 1em; cursor: pointer; }
+.feed-list { display: flex; flex-direction: column; gap: 24px; }
+.feed-post { background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(44,46,131,0.08); padding: 24px; }
+.post-header { display: flex; align-items: center; gap: 18px; margin-bottom: 12px; }
+.post-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+.post-user { display: flex; flex-direction: column; }
+.post-name { font-weight: 700; font-size: 1.1em; }
+.post-role { color: #666; font-size: 0.98em; }
+.post-time { color: #aaa; font-size: 0.95em; }
+.post-content { font-size: 1.08em; color: #222; margin-bottom: 12px; }
+.post-actions { display: flex; gap: 18px; align-items: center; color: #666; font-size: 1em; }
+.post-actions button { background: none; border: none; color: #6c47e3; font-weight: 600; cursor: pointer; }
+.post-actions button:hover { text-decoration: underline; }

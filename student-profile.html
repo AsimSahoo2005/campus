@@ -3,14 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Profile — Campus Connect</title>
+    <title>Student Profile — Campus Connect</title>
     <link rel="stylesheet" href="dashboard.css" />
     <link rel="stylesheet" href="profile.css" />
   </head>
   <body>
     <div class="shell">
-  <a href="#" id="backToDashboard" class="back">← Back to Dashboard</a>
-
+      <a href="dashboard.html" id="backToDashboard" class="back">← Back to Dashboard</a>
       <main class="profile-card">
         <div class="profile-header">
           <div class="avatar-large" id="avatarLarge">ME</div>
@@ -20,28 +19,23 @@
           </div>
           <button type="button" id="editBtn" class="edit-btn">Edit Profile</button>
         </div>
-
         <section class="profile-grid">
           <div class="field">
             <label>Full Name</label>
             <input id="fullName" type="text" placeholder="Full name" />
           </div>
-
           <div class="field">
             <label>Email Address</label>
             <input id="email" type="email" placeholder="you@example.com" />
           </div>
-
           <div class="field">
             <label>Phone Number</label>
             <input id="phone" type="tel" placeholder="Not set" />
           </div>
-
           <div class="field">
             <label>College/University</label>
             <input id="college" type="text" placeholder="Not set" />
           </div>
-
           <div class="field">
             <label>Gender</label>
             <select id="gender">
@@ -51,13 +45,11 @@
               <option>Other</option>
             </select>
           </div>
-
           <div class="field file-field">
             <label>Profile Photo</label>
             <input id="profilePic" type="file" accept="image/*" disabled />
             <small class="muted">Choose an image to set as your profile picture.</small>
           </div>
-
           <div class="field file-field">
             <label>Manage Your Resume</label>
             <input id="resumeFile" type="file" accept="application/pdf" disabled />
@@ -67,28 +59,19 @@
             </div>
           </div>
         </section>
-
         <div class="actions">
           <button id="saveBtn" class="primary" style="display:none">Save</button>
-          <a href="#" id="closeProfile" class="secondary">Close</a>
+          <a href="dashboard.html" id="closeProfile" class="secondary">Close</a>
         </div>
       </main>
     </div>
-
     <script>
-      // Profile page logic: load/save to localStorage and store files in IndexedDB
+      // Student profile page logic (full copy from profile.html, student only)
       (function(){
-        // Use alumni_profile if present, otherwise fallback to campus_profile
-        let STORAGE_KEY = 'campus_profile';
-        let isAlumni = false;
-        if (localStorage.getItem('alumni_profile')) {
-          STORAGE_KEY = 'alumni_profile';
-          isAlumni = true;
-        }
-
+        const STORAGE_KEY = 'campus_profile';
         // Set dashboard links contextually
         function setDashboardLinks() {
-          var dash = isAlumni ? 'alumni-dashboard.html' : 'dashboard.html';
+          var dash = 'dashboard.html';
           var backBtn = document.getElementById('backToDashboard');
           var closeBtn = document.getElementById('closeProfile');
           if(backBtn) backBtn.setAttribute('href', dash);
@@ -175,7 +158,6 @@
             avatarLarge.textContent = (profile.name||'').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase() || 'ME';
             delete avatarLarge.dataset.preview;
           }
-
           getResume().then(blob=>{
             if(blob){
               resumeControls.style.display = 'block';

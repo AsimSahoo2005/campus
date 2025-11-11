@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Alumni Profile — Campus Connect</title>
+    <link rel="stylesheet" href="dashboard.css" />
+    <link rel="stylesheet" href="profile.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <a href="alumni-dashboard.html" id="backToDashboard" class="back">← Back to Dashboard</a>
+      <main class="profile-card">
+        <div class="profile-header">
+          <div class="avatar-large" id="avatarLarge">ME</div>
+          <div class="profile-title">
+            <h1 id="displayName">Your Name</h1>
+            <p id="displayEmail" class="muted">you@example.com</p>
+          </div>
+          <button type="button" id="editBtn" class="edit-btn">Edit Profile</button>
+        </div>
+        <section class="profile-grid">
+          <div class="field">
+            <label>Full Name</label>
+            <input id="fullName" type="text" placeholder="Full name" />
+          </div>
+          <div class="field">
+            <label>Email Address</label>
+            <input id="email" type="email" placeholder="you@example.com" />
+          </div>
+          <div class="field">
+            <label>Phone Number</label>
+            <input id="phone" type="tel" placeholder="Not set" />
+          </div>
+          <div class="field">
+            <label>College/University</label>
+            <input id="college" type="text" placeholder="Not set" />
+          </div>
+          <div class="field">
+            <label>Gender</label>
+            <select id="gender">
+              <option value="">Prefer not to say</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field file-field">
+            <label>Profile Photo</label>
+            <input id="profilePic" type="file" accept="image/*" disabled />
+            <small class="muted">Choose an image to set as your profile picture.</small>
+          </div>
+          <div class="field file-field">
+            <label>Manage Your Resume</label>
+            <input id="resumeFile" type="file" accept="application/pdf" disabled />
+            <small class="muted">PDF only (max 5MB). Upload to easily apply for opportunities.</small>
+            <div id="resumeControls" class="resume-controls" style="display:none">
+              <a id="downloadResume" href="#">Download resume</a> • <button id="removeResume">Remove</button>
+            </div>
+          </div>
+        </section>
+        <div class="actions">
+          <button id="saveBtn" class="primary" style="display:none">Save</button>
+          <a href="alumni-dashboard.html" id="closeProfile" class="secondary">Close</a>
+        </div>
+      </main>
+    </div>
+    <script>
+      // Alumni profile page logic (full copy from profile.html, alumni only)
+      (function(){
+        const STORAGE_KEY = 'alumni_profile';
+        // Set dashboard links contextually
+        function setDashboardLinks() {
+          var dash = 'alumni-dashboard.html';
+          var backBtn = document.getElementById('backToDashboard');
+          var closeBtn = document.getElementById('closeProfile');
+          if(backBtn) backBtn.setAttribute('href', dash);
+          if(closeBtn) closeBtn.setAttribute('href', dash);
+        }
+        setDashboardLinks();
+        const TOP_NAME = document.getElementById('displayName');
+        const TOP_EMAIL = document.getElementById('displayEmail');
+        const fullName = document.getElementById('fullName');
+        const email = document.getElementById('email');
+        const phone = document.getElementById('phone');
+        const college = document.getElementById('college');
+        const gender = document.getElementById('gender');
+        const avatarLarge = document.getElementById('avatarLarge');
+        const profilePic = document.getElementById('profilePic');
+        const resumeFile = document.getElementById('resumeFile');
+        const saveBtn = document.getElementById('saveBtn');
+        const resumeControls = document.getElementById('resumeControls');
+        const downloadResume = document.getElementById('downloadResume');
+        const removeResume = document.getElementById('removeResume');
+        const editBtn = document.getElementById('editBtn');
+
+        // IndexedDB helpers
+        let db;
+        function openDB(){
+          return new Promise((resolve,reject)=>{
+            const req = indexedDB.open('campus_files',1);
+            req.onupgradeneeded = ()=> req.result.createObjectStore('resumes');
+            req.onsuccess = ()=>{ db = req.result; resolve(db) };
+            req.onerror = ()=> reject(req.error);
+          });
+        }
+        function putResume(file){
+          return openDB().then(db=>{
+            return new Promise((res,rej)=>{
+              const tx = db.transaction('resumes','readwrite');
+              const store = tx.objectStore('resumes');
+              const r = store.put(file,'resume');
+              r.onsuccess = ()=>res(true);
+              r.onerror = ()=>rej(r.error);
+            });
+          });
+        }
+        function getResume(){
+          return openDB().then(db=>{
+            return new Promise((res,rej)=>{
+              const tx = db.transaction('resumes','readonly');
+              const store = tx.objectStore('resumes');
+              const r = store.get('resume');
+              r.onsuccess = ()=>res(r.result);
+              r.onerror = ()=>rej(r.error);
+            });
+          });
+        }
+        function removeResumeFromDB(){
+          return openDB().then(db=>{
+            return new Promise((res,rej)=>{
+              const tx = db.transaction('resumes','readwrite');
+              const store = tx.objectStore('resumes');
+              const r = store.delete('resume');
+              r.onsuccess = ()=>res(true);
+              r.onerror = ()=>rej(r.error);
+            });
+          });
+        }
+
+        // load existing profile
+        function loadProfile(){
+          const raw = localStorage.getItem(STORAGE_KEY);
+          const profile = raw ? JSON.parse(raw) : {};
+          fullName.value = profile.name || '';
+          email.value = profile.email || '';
+          phone.value = profile.phone || '';
+          college.value = profile.college || '';
+          gender.value = profile.gender || '';
+          TOP_NAME.textContent = profile.name || 'Your Name';
+          TOP_EMAIL.textContent = profile.email || '';
+          if(profile.avatarDataUrl){
+            avatarLarge.style.backgroundImage = `url('${profile.avatarDataUrl}')`;
+            avatarLarge.textContent = '';
+            avatarLarge.dataset.preview = profile.avatarDataUrl;
+          } else {
+            avatarLarge.style.backgroundImage = '';
+            avatarLarge.textContent = (profile.name||'').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase() || 'ME';
+            delete avatarLarge.dataset.preview;
+          }
+          getResume().then(blob=>{
+            if(blob){
+              resumeControls.style.display = 'block';
+              downloadResume.href = URL.createObjectURL(blob);
+              downloadResume.download = (profile.name||'resume') + '.pdf';
+            } else {
+              resumeControls.style.display = 'none';
+            }
+          }).catch(()=>{ resumeControls.style.display = 'none' });
+        }
+
+        // preview avatar when selected
+        if(profilePic){
+          profilePic.addEventListener('change', function(){
+            const f = this.files && this.files[0];
+            if(!f) return;
+            const reader = new FileReader();
+            reader.onload = function(e){
+              avatarLarge.style.backgroundImage = `url('${e.target.result}')`;
+              avatarLarge.textContent = '';
+              avatarLarge.dataset.preview = e.target.result;
+            };
+            reader.readAsDataURL(f);
+          });
+        }
+
+        // resume upload
+        if(resumeFile){
+          resumeFile.addEventListener('change', function(){
+            const f = this.files && this.files[0];
+            if(!f) return alert('No file selected');
+            if(f.type !== 'application/pdf') return alert('Please upload a PDF file');
+            if(f.size > 5 * 1024 * 1024) return alert('File too large (max 5MB)');
+            putResume(f).then(()=>{
+              resumeControls.style.display = 'block';
+              getResume().then(blob=>{
+                downloadResume.href = URL.createObjectURL(blob);
+                downloadResume.download = (fullName.value||'resume') + '.pdf';
+              });
+              alert('Resume uploaded');
+            }).catch(err=>{ console.error(err); alert('Failed to save resume'); });
+          });
+        }
+
+        if(removeResume){
+          removeResume.addEventListener('click', function(e){
+            e.preventDefault();
+            removeResumeFromDB().then(()=>{
+              resumeControls.style.display = 'none';
+              alert('Resume removed');
+            });
+          });
+        }
+
+        // editing helper
+        const inputs = [fullName, email, phone, college, gender, profilePic, resumeFile];
+        let isEditing = false;
+        function setEditable(editable){
+          isEditing = !!editable;
+          inputs.forEach(i=>{ if(i) i.disabled = !isEditing });
+          if(saveBtn) saveBtn.style.display = isEditing ? '' : 'none';
+          if(editBtn) editBtn.textContent = isEditing ? 'Cancel' : 'Edit Profile';
+        }
+
+        if(saveBtn){
+          saveBtn.addEventListener('click', function(){
+            const profile = {
+              name: fullName.value.trim(),
+              email: email.value.trim(),
+              phone: phone.value.trim(),
+              college: college.value.trim(),
+              gender: gender.value,
+              avatarDataUrl: avatarLarge.dataset.preview || null
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+            loadProfile();
+            setEditable(false);
+            // small feedback
+            const originalText = saveBtn.textContent;
+            saveBtn.textContent = 'Saved';
+            setTimeout(()=>{ if(saveBtn) saveBtn.textContent = originalText }, 900);
+          });
+        }
+
+        if(editBtn){
+          editBtn.addEventListener('click', function(e){
+            e.preventDefault();
+            setEditable(!isEditing);
+            if(isEditing) loadProfile();
+          });
+          editBtn.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setEditable(!isEditing); if(isEditing) loadProfile(); } });
+        }
+
+        // initialize
+        loadProfile();
+        setEditable(false);
+
+      })();
+    </script>
+  </body>
+</html>

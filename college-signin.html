@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Sign In</title>
+    <link rel="stylesheet" href="college-signin.css">
+</head>
+<body>
+    <div class="signin-container">
+        <div class="signin-box">
+            <h2>College Sign In</h2>
+            <form id="signinForm">
+                <input type="email" id="email" placeholder="College Email" required value="admin@silicon.ac.in">
+                <input type="password" id="password" placeholder="Password" required value="1234">
+                <button type="submit">Sign In</button>
+                <p class="signup-link">New user? <a href="#" onclick="showSignup()">Sign up</a></p>
+            </form>
+        </div>
+        <div class="signup-box" id="signupBox" style="display:none;">
+            <h2>College Sign Up</h2>
+            <form id="signupForm">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="College Email" required>
+                <input type="text" placeholder="College ID" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Sign Up</button>
+                <p class="signin-link">Already have an account? <a href="#" onclick="showSignin()">Sign in</a></p>
+            </form>
+        </div>
+    </div>
+    <script>
+        function showSignup() {
+            document.getElementById('signupBox').style.display = 'block';
+            document.querySelector('.signin-box').style.display = 'none';
+        }
+        function showSignin() {
+            document.getElementById('signupBox').style.display = 'none';
+            document.querySelector('.signin-box').style.display = 'block';
+        }
+        // Add form submission logic here
+        document.getElementById('signinForm').onsubmit = function(e) {
+            e.preventDefault();
+            // Validate admin credentials
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+            if(email === 'admin@silicon.ac.in' && password === '1234') {
+                window.location.href = 'college.html';
+            } else {
+                alert('Invalid credentials. Please use admin@silicon.ac.in and password 1234 for admin access.');
+            }
+        };
+        document.getElementById('signupForm').onsubmit = function(e) {
+            e.preventDefault();
+            // Signup logic, send admin password to college mail
+            alert('Sign up successful! Admin password sent to college email.');
+            showSignin();
+        };
+    </script>
+</body>
+</html>

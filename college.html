@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Admin Dashboard</title>
+    <link rel="stylesheet" href="college.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+        <div class="app-shell">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-top">
+                    <div class="sidebar-logo">🎓</div>
+                </div>
+                <nav class="nav">
+                    <a href="college-database.html" class="nav-item"><span class="nav-emoji">👥</span><span class="nav-label">User Database</span></a>
+                    <a href="college-verification.html" class="nav-item"><span class="nav-emoji">✅</span><span class="nav-label">User Verification</span></a>
+                    <a href="college-tech-talks.html" class="nav-item"><span class="nav-emoji">🔊</span><span class="nav-label">Manage Tech Talks</span></a>
+                    <a href="college-events.html" class="nav-item"><span class="nav-emoji">🖼️</span><span class="nav-label">Past Events Gallery</span></a>
+                    <a href="college-feed.html" class="nav-item"><span class="nav-emoji">🌐</span><span class="nav-label">Community Feed</span></a>
+                    <a href="college-feedback.html" class="nav-item"><span class="nav-emoji">💬</span><span class="nav-label">View Feedback</span></a>
+                </nav>
+            </aside>
+            <header class="topbar">
+                <div class="top-left">
+                    <button id="menuBtn" class="menu" aria-label="Toggle sidebar" aria-expanded="true">☰</button>
+                    <div class="brand">Campus Connect | College</div>
+                </div>
+                <div class="top-right">
+                        <div class="profile" id="topProfile">
+                                <div id="profileTrigger" class="profile-link" tabindex="0" aria-haspopup="true" aria-expanded="false">
+                                    <div class="profile-name" id="topName">Silicon University</div>
+                                    <div class="avatar" id="topAvatar">SU</div>
+                                </div>
+                                <div class="profile-menu" id="profileMenu" role="menu" aria-hidden="true">
+                                      <a role="menuitem" href="welcome.html" id="menuLogout">Log out</a>
+                                </div>
+                        </div>
+                </div>
+            </header>
+            <main class="main-area">
+                <div class="container">
+                    <h2>College Admin</h2>
+                    <section class="tiles">
+                            <a href="college-database.html" class="tile blue">
+                                <div class="tile-icon">👥</div>
+                                <div class="tile-label">User Database</div>
+                            </a>
+                            <a href="college-verification.html" class="tile green">
+                                <div class="tile-icon">✅</div>
+                                <div class="tile-label">User Verification</div>
+                            </a>
+                            <a href="college-tech-talks.html" class="tile purple">
+                                <div class="tile-icon">🔊</div>
+                                <div class="tile-label">Manage Tech Talks</div>
+                            </a>
+                            <a href="college-events.html" class="tile teal">
+                                <div class="tile-icon">🖼️</div>
+                                <div class="tile-label">Past Events Gallery</div>
+                            </a>
+                            <a href="college-feed.html" class="tile orange">
+                                <div class="tile-icon">🌐</div>
+                                <div class="tile-label">Community Feed</div>
+                            </a>
+                            <a href="college-feedback.html" class="tile pink">
+                                <div class="tile-icon">💬</div>
+                                <div class="tile-label">View Feedback</div>
+                            </a>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <script>
+            (function(){
+                const btn = document.getElementById('menuBtn');
+                const sidebar = document.querySelector('.sidebar');
+                const topbar = document.querySelector('.topbar');
+                const main = document.querySelector('.main-area');
+                btn.addEventListener('click', function(){
+                    const collapsed = sidebar.classList.toggle('collapsed');
+                    topbar.classList.toggle('shifted', collapsed);
+                    main.classList.toggle('collapsed', collapsed);
+                    btn.setAttribute('aria-expanded', String(!collapsed));
+                });
+            })();
+            // topbar profile dropdown behavior
+            (function(){
+                const trigger = document.getElementById('profileTrigger');
+                const menu = document.getElementById('profileMenu');
+                const container = document.getElementById('topProfile');
+                if(!trigger || !menu) return;
+                function openMenu(){
+                    container.classList.add('open');
+                    trigger.setAttribute('aria-expanded','true');
+                    menu.setAttribute('aria-hidden','false');
+                }
+                function closeMenu(){
+                    container.classList.remove('open');
+                    trigger.setAttribute('aria-expanded','false');
+                    menu.setAttribute('aria-hidden','true');
+                }
+                trigger.addEventListener('click', function(e){
+                    const isOpen = container.classList.contains('open');
+                    if(isOpen) closeMenu(); else openMenu();
+                });
+                document.addEventListener('click', function(e){
+                    if(!container.contains(e.target)) closeMenu();
+                });
+                document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeMenu(); });
+                menu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+            })();
+        </script>
+</body>
+</html>
